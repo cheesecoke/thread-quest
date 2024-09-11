@@ -12,6 +12,7 @@ import NavBar from "@/components/NavBar";
 import mongoose from "mongoose";
 import ClothingItem from "@/models/ClothingItem";
 import SEOHead from "@/components/SEOHead";
+import Footer from "@/components/Footer";
 
 // Next.js dynamic imports
 const Sidebar = dynamic(() => import("@/components/Sidebar"), { ssr: false });
@@ -304,6 +305,7 @@ const Clothing: React.FC<{
           <ScrollToTopButton />
         </div>
       </main>
+      <Footer />
     </>
   );
 };
