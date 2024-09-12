@@ -9,7 +9,7 @@ type MobileFiltersProps = {
   onFilterChange: (filter: string, checked: boolean) => void;
   onCategoryChange: (category: string, checked: boolean) => void;
   onCompanyChange: (company: string, checked: boolean) => void;
-  onPriceChange: (priceRange: string | null, checked: boolean) => void; // updated to allow null
+  onPriceChange: (priceRange: string | null, checked: boolean) => void;
   clearFilters: () => void;
 };
 
@@ -24,7 +24,7 @@ const priceRanges = [
 ];
 
 const MobileFilters: React.FC<MobileFiltersProps> = ({
-  availableTags,
+  availableTags = [], // Fallback to an empty array if undefined
   activeFilters = [],
   activeCategories = [],
   activeCompanies = [],
@@ -44,7 +44,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
         <button
           type="button"
           onClick={clearFilters}
-          className="text-sm text-text-secondary"
+          className="text-sm text-text-secondary hover:text-primary"
         >
           Clear all
         </button>
@@ -56,7 +56,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           key={range.value}
           onClick={() =>
             onPriceChange(
-              activePriceRange === range.value ? null : range.value, // Toggle price filter
+              activePriceRange === range.value ? null : range.value,
               activePriceRange !== range.value
             )
           }
@@ -69,7 +69,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           {range.label}
           {activePriceRange === range.value && (
             <span
-              onClick={() => onPriceChange(null, false)} // Unset price filter
+              onClick={() => onPriceChange(null, false)}
               className="ml-2 cursor-pointer"
             >
               &times;
@@ -129,27 +129,31 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
       ))}
 
       {/* Render tag pills */}
-      {availableTags.map((tag) => (
-        <button
-          key={tag}
-          onClick={() => onFilterChange(tag, !activeFilters.includes(tag))}
-          className={`flex items-center px-4 py-2 rounded-full border text-sm ${
-            activeFilters.includes(tag)
-              ? "bg-accent text-secondary hover:bg-primary"
-              : "bg-neutral-light text-primary hover:bg-neutral-mid"
-          }`}
-        >
-          {tag}
-          {activeFilters.includes(tag) && (
-            <span
-              onClick={() => onFilterChange(tag, false)}
-              className="ml-2 cursor-pointer"
-            >
-              &times;
-            </span>
-          )}
-        </button>
-      ))}
+      {availableTags.length > 0 ? (
+        availableTags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => onFilterChange(tag, !activeFilters.includes(tag))}
+            className={`flex items-center px-4 py-2 rounded-full border text-sm ${
+              activeFilters.includes(tag)
+                ? "bg-accent text-secondary hover:bg-primary"
+                : "bg-neutral-light text-primary hover:bg-neutral-mid"
+            }`}
+          >
+            {tag}
+            {activeFilters.includes(tag) && (
+              <span
+                onClick={() => onFilterChange(tag, false)}
+                className="ml-2 cursor-pointer"
+              >
+                &times;
+              </span>
+            )}
+          </button>
+        ))
+      ) : (
+        <p className="text-sm text-text-secondary">No tags available</p>
+      )}
     </div>
   );
 };

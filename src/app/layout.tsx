@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lora, Poppins, Roboto } from "next/font/google";
-import "./globals.css";
+import "./styles/globals.css";
+import NavBar from "@/app/components/NavBar";
+import Footer from "@/app/components/Footer";
 
 // Import fonts
 const lora = Lora({ weight: ["400", "700"], subsets: ["latin"] });
@@ -25,7 +27,9 @@ export default function RootLayout({
       <body
         className={`${poppins.className} ${roboto.className} ${lora.className}`}
       >
-        {children}
+        <NavBar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

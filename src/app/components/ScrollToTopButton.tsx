@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 

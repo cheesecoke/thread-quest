@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Button from "@/components/Button";
+import Button from "@/app/components/Button";
 
 const NavBar: React.FC = () => {
   return (
