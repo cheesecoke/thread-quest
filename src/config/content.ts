@@ -12,6 +12,11 @@ const content = {
       description:
         "Browse our selection of high-quality clothing, sorted by tops, bottoms, and outerwear.",
     },
+    inventory: {
+      title: "Inventory Outfit - ThreadQuest",
+      description:
+        "Browse and create outfits from your inventory of clothing items.",
+    },
   },
 };
 

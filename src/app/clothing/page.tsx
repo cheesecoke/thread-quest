@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 // Dynamic import of the client-side component
 const ClothingClient = dynamic(
-  () => import("@/app/components/ClothingClient"),
+  () => import("@/app/clothing/components/ClothingClient"),
   { ssr: false }
 );
 

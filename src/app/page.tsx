@@ -15,11 +15,6 @@ const pages = [
 export default function Home() {
   return (
     <div className="bg-secondary">
-      {/* <header className="absolute inset-x-0 top-0 z-50">
-        <NavBar />
-      </header> */}
-      {/* Hero Section */}
-      {/* <main> */}
       <div className="relative isolate">
         <svg
           aria-hidden="true"

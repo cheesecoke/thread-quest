@@ -8,12 +8,12 @@ import React, {
   Suspense,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Sidebar from "@/app/components/Sidebar";
-import MobileFilters from "@/app/components/MobileFilters";
-import ScrollToTopButton from "@/app/components/ScrollToTopButton";
+import Sidebar from "@/app/clothing/components/Sidebar";
+import MobileFilters from "@/app/clothing/components/MobileFilters";
+import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
 import dynamic from "next/dynamic";
 
-const ItemList = dynamic(() => import("@/app/components/ItemList"), {
+const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
   ssr: false,
 });
 
