@@ -8,7 +8,16 @@ const statuses = {
   Archived: "text-warning bg-warning-light ring-warning/20",
 };
 
-const savedOutfits = [
+type Status = "Purchased" | "In progress" | "Archived";
+
+const savedOutfits: {
+  id: number;
+  name: string;
+  href: string;
+  status: Status;
+  dueDate: string;
+  dueDateTime: string;
+}[] = [
   {
     id: 1,
     name: "Outfit 1",
@@ -27,7 +36,7 @@ const savedOutfits = [
   },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 

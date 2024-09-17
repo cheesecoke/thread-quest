@@ -8,15 +8,23 @@ const tabs = [
   { name: "Outfit", current: true },
 ];
 
-export default function InventoryClient({ categorizedItems }) {
+interface InventoryClientProps {
+  categorizedItems: any; // Replace 'any' with the appropriate type if known
+}
+
+export default function InventoryClient({
+  categorizedItems,
+}: InventoryClientProps) {
   const [selectedTab, setSelectedTab] = useState("Inventory");
-  const [selectedItems, setSelectedItems] = useState({});
+  const [selectedItems, setSelectedItems] = useState<{ [key: string]: any }>(
+    {}
+  );
 
   useEffect(() => {
     console.log("Selected items have been updated.", selectedItems);
   }, [selectedItems]);
 
-  const handleSelectItem = (category, item) => {
+  const handleSelectItem = (category: string, item: any) => {
     setSelectedItems((prevSelectedItems) => {
       // If the clicked item is already selected, remove it
       if (prevSelectedItems[category]?._id === item._id) {
@@ -33,7 +41,7 @@ export default function InventoryClient({ categorizedItems }) {
     });
   };
 
-  const onDelete = (category, item) => {
+  const onDelete = (category: string) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedSelectedItems = { ...prevSelectedItems };
       delete updatedSelectedItems[category]; // Remove the item from selected items

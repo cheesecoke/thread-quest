@@ -2,7 +2,19 @@ import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
 import SavedOutfitsList from "./SavedOutfitsList";
 
-const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
+interface CatSectionProps {
+  category: string;
+  item: { name: string; imageUrl: string; link?: string };
+  setSelectedTab: (tab: string) => void;
+  onDelete: (category: string) => void;
+}
+
+const CatSection = ({
+  category,
+  item,
+  setSelectedTab,
+  onDelete,
+}: CatSectionProps) => {
   const hasImage = item?.imageUrl;
 
   return (
@@ -66,7 +78,17 @@ const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
   );
 };
 
-const OutfitTab = ({ selectedItems, setSelectedTab, onDelete }) => {
+interface OutfitTabProps {
+  selectedItems: Record<string, { name: string; imageUrl: string }>;
+  setSelectedTab: (tab: string) => void;
+  onDelete: (category: string) => void;
+}
+
+const OutfitTab = ({
+  selectedItems,
+  setSelectedTab,
+  onDelete,
+}: OutfitTabProps) => {
   // Default structure for outfit categories
   const defaultOutfit = {
     Hats: { name: "No Hat", imageUrl: "" },

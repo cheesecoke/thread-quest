@@ -1,7 +1,22 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import Button from "@/app/components/Button";
 
-const CategorySection = ({
+interface Item {
+  _id: string;
+  imageUrl: string;
+  name: string;
+  company: string;
+  price: number;
+}
+
+interface CategorySectionProps {
+  categorizedItems: { [key: string]: Item[] };
+  selectedItems: { [key: string]: Item };
+  onSelectItem: (category: string, item: Item) => void;
+  setSelectedTab: (tab: string) => void;
+}
+
+const CategorySection: React.FC<CategorySectionProps> = ({
   categorizedItems,
   selectedItems,
   onSelectItem,
@@ -71,7 +86,14 @@ const CategorySection = ({
 };
 
 // InventoryTab component using the CategorySection with scrollable items
-const InventoryTab = ({
+interface InventoryTabProps {
+  categorizedItems: { [key: string]: Item[] };
+  selectedItems: { [key: string]: Item };
+  onSelectItem: (category: string, item: Item) => void;
+  setSelectedTab: (tab: string) => void;
+}
+
+const InventoryTab: React.FC<InventoryTabProps> = ({
   categorizedItems,
   selectedItems,
   onSelectItem,
