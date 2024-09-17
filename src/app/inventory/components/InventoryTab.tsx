@@ -1,6 +1,12 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import Button from "@/app/components/Button";
 
-const CategorySection = ({ categorizedItems, selectedItems, onSelectItem }) => {
+const CategorySection = ({
+  categorizedItems,
+  selectedItems,
+  onSelectItem,
+  setSelectedTab,
+}) => {
   return (
     <div className="space-y-8">
       {Object.keys(categorizedItems).map((category) => (
@@ -33,12 +39,15 @@ const CategorySection = ({ categorizedItems, selectedItems, onSelectItem }) => {
                     {/* Heroicon for selected item */}
                     {isSelected && (
                       <div className="absolute -bottom-3 -right-3 flex items-center justify-center">
-                        <div className="absolute m-auto w-6 h-6 bg-secondary rounded-full"></div>
+                        <div className="absolute m-auto w-6 h-6 bg-white rounded-full"></div>
                         <CheckCircleIcon className="relative w-8 h-8 text-success" />
                       </div>
                     )}
                   </div>
-                  <div className="text-center">
+                  <div className="text-left mt-6">
+                    <h3 className="text-sm font-bold font-heading">
+                      {item.company}
+                    </h3>
                     <h4 className="text-sm font-medium text-primary">
                       {item.name}
                     </h4>
@@ -48,6 +57,13 @@ const CategorySection = ({ categorizedItems, selectedItems, onSelectItem }) => {
               );
             })}
           </div>
+          <Button
+            onClick={() => setSelectedTab("Outfit")}
+            variant="outlined"
+            className="mt-4"
+          >
+            View Outfit
+          </Button>
         </div>
       ))}
     </div>
@@ -55,13 +71,19 @@ const CategorySection = ({ categorizedItems, selectedItems, onSelectItem }) => {
 };
 
 // InventoryTab component using the CategorySection with scrollable items
-const InventoryTab = ({ categorizedItems, selectedItems, onSelectItem }) => {
+const InventoryTab = ({
+  categorizedItems,
+  selectedItems,
+  onSelectItem,
+  setSelectedTab,
+}) => {
   return (
     <div className="h-full overflow-y-auto space-y-8">
       <CategorySection
         categorizedItems={categorizedItems}
         selectedItems={selectedItems}
         onSelectItem={onSelectItem}
+        setSelectedTab={setSelectedTab}
       />
     </div>
   );

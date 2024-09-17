@@ -76,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {({ open }) => (
             <>
               <h3 className="-my-3 flow-root">
-                <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-text-secondary hover:text-primary">
+                <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-text-white hover:text-primary">
                   <span className="font-medium text-primary">
                     {section.name}
                   </span>
@@ -136,7 +136,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       />
                       <label
                         htmlFor={`${section.id}-${option}`}
-                        className="ml-3 text-sm text-text-secondary"
+                        className="ml-3 text-sm text-text-white"
                       >
                         {option}
                       </label>
@@ -154,7 +154,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {({ open }) => (
           <>
             <h3 className="-my-3 flow-root">
-              <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-text-secondary hover:text-primary">
+              <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-text-white hover:text-primary">
                 <span className="font-medium text-primary">Price</span>
                 <span className="ml-6 flex items-center">
                   {open ? (
@@ -190,7 +190,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     />
                     <label
                       htmlFor={`price-${range.value}`}
-                      className="ml-3 text-sm text-text-secondary"
+                      className="ml-3 text-sm text-text-white"
                     >
                       {range.label}
                     </label>

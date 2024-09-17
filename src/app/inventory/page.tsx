@@ -58,7 +58,7 @@ export default async function InventoryPage() {
       <SEOHead page="inventory" />
       <div className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="flex justify-start items-center border-b border-neutral-mid pb-10">
-          <h1 className="text-4xl font-bold">Outfit & Inventory</h1>
+          <h1 className="text-4xl font-bold">Inventory</h1>
         </div>
         <InventoryClient categorizedItems={categorizedItems} />
       </div>

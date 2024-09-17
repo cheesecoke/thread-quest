@@ -4,12 +4,12 @@ import OutfitTab from "./OutfitTab";
 import InventoryTab from "./InventoryTab";
 
 const tabs = [
-  { name: "Outfit", current: true },
   { name: "Inventory", current: false },
+  { name: "Outfit", current: true },
 ];
 
 export default function InventoryClient({ categorizedItems }) {
-  const [selectedTab, setSelectedTab] = useState("Outfit");
+  const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState({});
 
   useEffect(() => {
@@ -30,6 +30,14 @@ export default function InventoryClient({ categorizedItems }) {
         ...prevSelectedItems,
         [category]: item,
       };
+    });
+  };
+
+  const onDelete = (category, item) => {
+    setSelectedItems((prevSelectedItems) => {
+      const updatedSelectedItems = { ...prevSelectedItems };
+      delete updatedSelectedItems[category]; // Remove the item from selected items
+      return updatedSelectedItems;
     });
   };
 
@@ -78,17 +86,19 @@ export default function InventoryClient({ categorizedItems }) {
 
       {/* Content rendering based on selected tab */}
       <div className="mt-6">
-        {selectedTab === "Outfit" && (
-          <OutfitTab
-            setSelectedTab={setSelectedTab}
-            selectedItems={selectedItems}
-          />
-        )}
         {selectedTab === "Inventory" && (
           <InventoryTab
             categorizedItems={categorizedItems}
             selectedItems={selectedItems}
             onSelectItem={handleSelectItem}
+            setSelectedTab={setSelectedTab}
+          />
+        )}
+        {selectedTab === "Outfit" && (
+          <OutfitTab
+            setSelectedTab={setSelectedTab}
+            selectedItems={selectedItems}
+            onDelete={onDelete}
           />
         )}
       </div>

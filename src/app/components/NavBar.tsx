@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
         </Link>
 
         <div>
-          <div className="absolute rounded-full bg-secondary shadow-md top-4 p-1">
+          <div className="absolute rounded-full bg-white shadow-md top-4 p-1">
             <Image
               src="/images/logo.png"
               alt="ThreadQuest Logo"

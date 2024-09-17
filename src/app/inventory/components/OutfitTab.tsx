@@ -1,5 +1,6 @@
 import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
+import SavedOutfitsList from "./SavedOutfitsList";
 
 const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
   const hasImage = item?.imageUrl;
@@ -10,12 +11,11 @@ const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
         <h3 className="text-lg font-semibold">{category}</h3>
       </div>
 
-      {/* Wrapping the entire section with an onClick */}
       <div
         className={`relative w-32 h-32 rounded-xl object-cover shadow-lg group ${
           hasImage && "cursor-pointer"
         }`}
-        onClick={onDelete}
+        onClick={() => onDelete(category)}
       >
         {hasImage ? (
           <img
@@ -42,14 +42,22 @@ const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
         )}
       </div>
       {hasImage ? (
-        <Button href={item.link} variant="outlined" className="mt-4">
+        <Button
+          href={item.link}
+          variant="outlined"
+          type="primary"
+          className="mt-4"
+          size="md"
+        >
           Buy Item
         </Button>
       ) : (
         <Button
-          onClick={() => setSelectedTab("Inventory")}
           variant="outlined"
+          type="primary"
           className="mt-4"
+          size="md"
+          onClick={() => setSelectedTab("Inventory")}
         >
           Pick
         </Button>
@@ -58,7 +66,7 @@ const CatSection = ({ category, item, setSelectedTab, onDelete }) => {
   );
 };
 
-const OutfitTab = ({ selectedItems, setSelectedTab }) => {
+const OutfitTab = ({ selectedItems, setSelectedTab, onDelete }) => {
   // Default structure for outfit categories
   const defaultOutfit = {
     Hats: { name: "No Hat", imageUrl: "" },
@@ -74,92 +82,96 @@ const OutfitTab = ({ selectedItems, setSelectedTab }) => {
   const outfit = { ...defaultOutfit, ...selectedItems };
 
   console.log("selectedItems", selectedItems);
+  console.log("outfit", outfit);
 
   return (
-    <div className="relative mx-auto max-w-lg">
-      <div className="relative grid grid-cols-2 gap-4 p-6">
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Hats"
-            item={outfit.Hats}
-          />
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
+      <div className="relative col-span-1 max-w-lg">
+        <div className="relative grid grid-cols-2 gap-4 p-6">
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Hats"
+              item={outfit.Hats}
+            />
+          </div>
+        </div>
+
+        <div className="relative grid grid-cols-2 gap-4 p-6">
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Tops"
+              item={outfit.Tops}
+            />
+          </div>
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Outerwear"
+              item={outfit.Outerwear}
+            />
+          </div>
+        </div>
+
+        <div className="relative grid grid-cols-2 gap-4 p-6">
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Bottoms"
+              item={outfit.Bottoms}
+            />
+          </div>
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Belts"
+              item={outfit.Belts}
+            />
+          </div>
+        </div>
+
+        <div className="relative grid grid-cols-2 gap-4 p-6">
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Shoes"
+              item={outfit.Shoes}
+            />
+          </div>
+          <div className="col-span-1 row-span-1 flex items-center justify-center">
+            <CatSection
+              onDelete={onDelete}
+              setSelectedTab={setSelectedTab}
+              category="Socks"
+              item={outfit.Socks}
+            />
+          </div>
         </div>
       </div>
-
-      <div className="relative grid grid-cols-2 gap-4 p-6">
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Tops"
-            item={outfit.Tops}
-          />
+      <div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold">Saved Outfits</h2>
+          <Button
+            variant="outlined"
+            type="primary"
+            className="mt-4"
+            size="sm"
+            onClick={() => console.log("Save Outfit")}
+          >
+            Save
+          </Button>
         </div>
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Outerwear"
-            item={outfit.Outerwear}
-          />
+        <div className="relative col-span-1 row-span-1 flex justify-center h-full p-6">
+          <SavedOutfitsList />
+          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
         </div>
-      </div>
-
-      <div className="relative grid grid-cols-2 gap-4 p-6">
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Bottoms"
-            item={outfit.Bottoms}
-          />
-        </div>
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Belts"
-            item={outfit.Belts}
-          />
-        </div>
-      </div>
-
-      <div className="relative grid grid-cols-2 gap-4 p-6">
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Shoes"
-            item={outfit.Shoes}
-          />
-        </div>
-        <div className="col-span-1 row-span-1 flex items-center justify-center">
-          <CatSection
-            setSelectedTab={setSelectedTab}
-            category="Socks"
-            item={outfit.Socks}
-          />
-        </div>
-      </div>
-
-      {/* Collapsible menu positioned on the right */}
-      <div className="fixed top-1/3 right-0 w-1/4 h-auto bg-gray-300 p-4 shadow-lg">
-        <div className="mb-4">
-          <h2 className="text-lg font-bold">Menu</h2>
-        </div>
-        <ul className="space-y-2">
-          <li>
-            <a href="#" className="block hover:text-blue-500">
-              Shop
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block hover:text-blue-500">
-              Save
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block hover:text-blue-500">
-              Clear
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   );

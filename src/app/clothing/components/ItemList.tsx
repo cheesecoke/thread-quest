@@ -42,7 +42,7 @@ const ItemList: React.FC<ItemListProps> = ({ items }) => {
                 {item.name}
               </h3>
               <p className="text-lg font-body text-primary">${item.price}</p>
-              <p className="text-sm font-body text-text-secondary font-semibold">
+              <p className="text-sm font-body text-text-white font-semibold">
                 {item.category}
               </p>
               <div className="my-2">
@@ -51,14 +51,14 @@ const ItemList: React.FC<ItemListProps> = ({ items }) => {
                   item.tags.map((tag, index) => (
                     <span
                       key={tag}
-                      className="inline-block text-sm text-text-secondary mr-2"
+                      className="inline-block text-sm text-text-white mr-2"
                     >
                       {tag}
                       {index < item.tags.length - 1 && " |"}
                     </span>
                   ))
                 ) : (
-                  <span className="inline-block text-sm text-text-secondary">
+                  <span className="inline-block text-sm text-text-white">
                     No tags available
                   </span>
                 )}

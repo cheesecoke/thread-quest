@@ -44,7 +44,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
         <button
           type="button"
           onClick={clearFilters}
-          className="text-sm text-text-secondary hover:text-primary"
+          className="text-sm text-text-white hover:text-primary"
         >
           Clear all
         </button>
@@ -62,7 +62,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           }
           className={`flex items-center px-4 py-2 rounded-full border text-sm ${
             activePriceRange === range.value
-              ? "bg-accent text-secondary hover:bg-primary"
+              ? "bg-accent text-white hover:bg-primary"
               : "bg-neutral-light text-primary hover:bg-neutral-mid"
           }`}
         >
@@ -87,7 +87,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           }
           className={`flex items-center px-4 py-2 rounded-full border text-sm ${
             activeCompanies.includes(company)
-              ? "bg-accent text-secondary hover:bg-primary"
+              ? "bg-accent text-white hover:bg-primary"
               : "bg-neutral-light text-primary hover:bg-neutral-mid"
           }`}
         >
@@ -112,7 +112,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           }
           className={`flex items-center px-4 py-2 rounded-full border text-sm ${
             activeCategories.includes(category)
-              ? "bg-accent text-secondary hover:bg-primary"
+              ? "bg-accent text-white hover:bg-primary"
               : "bg-neutral-light text-primary hover:bg-neutral-mid"
           }`}
         >
@@ -136,7 +136,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
             onClick={() => onFilterChange(tag, !activeFilters.includes(tag))}
             className={`flex items-center px-4 py-2 rounded-full border text-sm ${
               activeFilters.includes(tag)
-                ? "bg-accent text-secondary hover:bg-primary"
+                ? "bg-accent text-white hover:bg-primary"
                 : "bg-neutral-light text-primary hover:bg-neutral-mid"
             }`}
           >
@@ -152,7 +152,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           </button>
         ))
       ) : (
-        <p className="text-sm text-text-secondary">No tags available</p>
+        <p className="text-sm text-text-white">No tags available</p>
       )}
     </div>
   );

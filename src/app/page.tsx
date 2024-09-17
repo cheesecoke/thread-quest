@@ -14,7 +14,7 @@ const pages = [
 
 export default function Home() {
   return (
-    <div className="bg-secondary">
+    <div className="bg-white">
       <div className="relative isolate">
         <svg
           aria-hidden="true"
@@ -56,7 +56,7 @@ export default function Home() {
                 <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl">
                   {content.hero.title}
                 </h1>
-                <p className="mt-6 text-lg leading-8 text-text-secondary sm:max-w-md lg:max-w-none">
+                <p className="mt-6 text-lg leading-8 text-text-primary sm:max-w-md lg:max-w-none">
                   {content.hero.subtitle}
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
@@ -146,7 +146,7 @@ export default function Home() {
           {pages.map((page) => (
             <li
               key={page.name}
-              className="col-span-1 divide-y divide-neutral-mid rounded-lg bg-secondary shadow"
+              className="col-span-1 divide-y divide-neutral-mid rounded-lg bg-white shadow"
             >
               <div className="flex w-full items-center justify-between space-x-6 p-6">
                 <div className="flex-1 truncate">
@@ -155,7 +155,7 @@ export default function Home() {
                       {page.name}
                     </h3>
                   </div>
-                  <p className="mt-1 truncate text-sm text-text-secondary">
+                  <p className="mt-1 truncate text-sm text-text-primary">
                     {page.description}
                   </p>
                 </div>

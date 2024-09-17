@@ -54,7 +54,7 @@ export default function Footer() {
             <div key={item.name} className="pb-6">
               <a
                 href={item.href}
-                className="text-sm font-body text-text-secondary hover:text-primary"
+                className="text-sm font-body text-text-white hover:text-primary"
               >
                 {item.name}
               </a>
@@ -66,14 +66,14 @@ export default function Footer() {
             <a
               key={item.name}
               href={item.href}
-              className="text-text-secondary hover:text-primary"
+              className="text-text-white hover:text-primary"
             >
               <span className="sr-only">{item.name}</span>
               <item.icon aria-hidden="true" className="h-6 w-6" />
             </a>
           ))}
         </div>
-        <p className="mt-10 text-center text-xs font-body text-text-secondary">
+        <p className="mt-10 text-center text-xs font-body text-text-white">
           &copy; {new Date().getFullYear()} Thread-Quest, Inc. All rights
           reserved.
         </p>
