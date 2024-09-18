@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
 import SavedOutfitsList from "./SavedOutfitsList";
@@ -80,15 +81,80 @@ const CatSection = ({
 
 interface OutfitTabProps {
   selectedItems: Record<string, { name: string; imageUrl: string }>;
+  setSelectedItems: (
+    items: Record<string, { name: string; imageUrl: string }>
+  ) => void;
   setSelectedTab: (tab: string) => void;
   onDelete: (category: string) => void;
 }
 
+const isOutfitDuplicate = (
+  newOutfitItems: Record<string, { name: string; imageUrl: string }>,
+  savedOutfits: Array<{
+    items: Record<string, { name: string; imageUrl: string }>;
+  }>
+) => {
+  return savedOutfits.some((savedOutfit) => {
+    const newOutfitCategories = Object.keys(newOutfitItems);
+    const savedOutfitCategories = Object.keys(savedOutfit.items);
+
+    // Ensure the number of categories is the same
+    if (newOutfitCategories.length !== savedOutfitCategories.length) {
+      return false;
+    }
+
+    // Check if all items match exactly
+    return newOutfitCategories.every((category) => {
+      const newItem = newOutfitItems[category];
+      const savedItem = savedOutfit.items[category];
+
+      // Ensure that the category exists in both outfits and the items match
+      return (
+        newItem &&
+        savedItem &&
+        newItem.name === savedItem.name &&
+        newItem.imageUrl === savedItem.imageUrl
+      );
+    });
+  });
+};
+
 const OutfitTab = ({
   selectedItems,
+  setSelectedItems,
   setSelectedTab,
   onDelete,
 }: OutfitTabProps) => {
+  const [savedOutfits, setSavedOutfits] = useState<any[]>([]);
+
+  // Load saved outfits from local storage
+  useEffect(() => {
+    const outfitsFromStorage = JSON.parse(
+      localStorage.getItem("savedOutfits") || "[]"
+    );
+    setSavedOutfits(outfitsFromStorage);
+  }, []);
+
+  const saveOutfit = () => {
+    if (isOutfitDuplicate(selectedItems, savedOutfits)) {
+      alert("Outfit already exists in saved outfits.");
+      return;
+    }
+
+    const newOutfit = {
+      id: savedOutfits.length + 1,
+      name: `Outfit ${savedOutfits.length + 1}`,
+      status: "In Progress",
+      dueDate: new Date().toLocaleDateString(),
+      dueDateTime: new Date().toISOString(),
+      items: selectedItems,
+    };
+
+    const updatedOutfits = [...savedOutfits, newOutfit];
+    setSavedOutfits(updatedOutfits);
+    localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
+  };
+
   // Default structure for outfit categories
   const defaultOutfit = {
     Hats: { name: "No Hat", imageUrl: "" },
@@ -102,9 +168,6 @@ const OutfitTab = ({
 
   // Merge selected items with the default structure
   const outfit = { ...defaultOutfit, ...selectedItems };
-
-  console.log("selectedItems", selectedItems);
-  console.log("outfit", outfit);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
@@ -185,13 +248,18 @@ const OutfitTab = ({
             type="primary"
             className="mt-4"
             size="sm"
-            onClick={() => console.log("Save Outfit")}
+            disabled={Object.keys(selectedItems).length === 0}
+            onClick={saveOutfit}
           >
             Save
           </Button>
         </div>
         <div className="relative col-span-1 row-span-1 flex justify-center h-full p-6">
-          <SavedOutfitsList />
+          <SavedOutfitsList
+            savedOutfits={savedOutfits}
+            setSavedOutfits={setSavedOutfits}
+            setSelectedItems={setSelectedItems}
+          />
           <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
         </div>
       </div>

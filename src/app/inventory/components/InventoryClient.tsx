@@ -106,6 +106,7 @@ export default function InventoryClient({
           <OutfitTab
             setSelectedTab={setSelectedTab}
             selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
             onDelete={onDelete}
           />
         )}
