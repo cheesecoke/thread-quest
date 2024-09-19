@@ -187,27 +187,29 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
             <button
               type="button"
               onClick={clearFilters}
-              className="text-sm text-accent hover:underline"
+              className="text-sm text-secondary-dark hover:text-secondary hover:underline"
             >
               Clear all filters
             </button>
           </div>
           <div className="overflow-y-auto max-h-[calc(100vh-96px)] pb-32">
-            <Sidebar
-              availableTags={itemsData.availableTags}
-              activeFilters={filters.tags}
-              activeCategories={filters.categories}
-              activeCompanies={filters.companies}
-              activePriceRange={filters.price}
-              onFilterChange={(tags) => toggleFilter("tags", tags)}
-              onCategoryChange={(categories) =>
-                toggleFilter("categories", categories)
-              }
-              onCompanyChange={(companies) =>
-                toggleFilter("companies", companies)
-              }
-              onPriceChange={(price) => toggleFilter("price", price || "")}
-            />
+            <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6">
+              <Sidebar
+                availableTags={itemsData.availableTags}
+                activeFilters={filters.tags}
+                activeCategories={filters.categories}
+                activeCompanies={filters.companies}
+                activePriceRange={filters.price}
+                onFilterChange={(tags) => toggleFilter("tags", tags)}
+                onCategoryChange={(categories) =>
+                  toggleFilter("categories", categories)
+                }
+                onCompanyChange={(companies) =>
+                  toggleFilter("companies", companies)
+                }
+                onPriceChange={(price) => toggleFilter("price", price || "")}
+              />
+            </div>
           </div>
         </aside>
 

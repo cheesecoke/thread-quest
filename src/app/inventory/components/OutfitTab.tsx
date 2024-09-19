@@ -8,6 +8,7 @@ interface CatSectionProps {
   item: { name: string; imageUrl: string; link?: string };
   setSelectedTab: (tab: string) => void;
   onDelete: (category: string) => void;
+  setSelectedOutfitId: (id: number | null) => void;
 }
 
 const CatSection = ({
@@ -15,6 +16,7 @@ const CatSection = ({
   item,
   setSelectedTab,
   onDelete,
+  setSelectedOutfitId,
 }: CatSectionProps) => {
   const hasImage = item?.imageUrl;
 
@@ -28,7 +30,10 @@ const CatSection = ({
         className={`relative w-32 h-32 rounded-xl object-cover shadow-lg group ${
           hasImage && "cursor-pointer"
         }`}
-        onClick={() => onDelete(category)}
+        onClick={() => {
+          onDelete(category);
+          setSelectedOutfitId(null);
+        }}
       >
         {hasImage ? (
           <img
@@ -58,9 +63,10 @@ const CatSection = ({
         <Button
           href={item.link}
           variant="outlined"
-          type="primary"
+          type="secondary"
           className="mt-4"
           size="md"
+          externalLink
         >
           Buy Item
         </Button>
@@ -91,8 +97,10 @@ interface OutfitTabProps {
 const isOutfitDuplicate = (
   newOutfitItems: Record<string, { name: string; imageUrl: string }>,
   savedOutfits: Array<{
+    id: number;
     items: Record<string, { name: string; imageUrl: string }>;
-  }>
+  }>,
+  setSelectedOutfitId: (id: number | null) => void
 ) => {
   return savedOutfits.some((savedOutfit) => {
     const newOutfitCategories = Object.keys(newOutfitItems);
@@ -107,6 +115,9 @@ const isOutfitDuplicate = (
     return newOutfitCategories.every((category) => {
       const newItem = newOutfitItems[category];
       const savedItem = savedOutfit.items[category];
+
+      // If the outfit is a duplicate, set the selected outfit ID to the saved outfit
+      setSelectedOutfitId(savedOutfit.id);
 
       // Ensure that the category exists in both outfits and the items match
       return (
@@ -126,6 +137,9 @@ const OutfitTab = ({
   onDelete,
 }: OutfitTabProps) => {
   const [savedOutfits, setSavedOutfits] = useState<any[]>([]);
+  const [selectedOutfitId, setSelectedOutfitId] = useState<number | null>(null); // State to track the currently selected outfit
+
+  console.log("selectedOutfitId", selectedOutfitId);
 
   // Load saved outfits from local storage
   useEffect(() => {
@@ -136,7 +150,7 @@ const OutfitTab = ({
   }, []);
 
   const saveOutfit = () => {
-    if (isOutfitDuplicate(selectedItems, savedOutfits)) {
+    if (isOutfitDuplicate(selectedItems, savedOutfits, setSelectedOutfitId)) {
       alert("Outfit already exists in saved outfits.");
       return;
     }
@@ -153,6 +167,11 @@ const OutfitTab = ({
     const updatedOutfits = [...savedOutfits, newOutfit];
     setSavedOutfits(updatedOutfits);
     localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
+  };
+
+  const handleViewOutfit = (items: Record<string, any>, id: number) => {
+    setSelectedOutfitId(id);
+    setSelectedItems(items);
   };
 
   // Default structure for outfit categories
@@ -176,6 +195,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Hats"
               item={outfit.Hats}
@@ -187,6 +207,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Tops"
               item={outfit.Tops}
@@ -195,6 +216,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Outerwear"
               item={outfit.Outerwear}
@@ -206,6 +228,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Bottoms"
               item={outfit.Bottoms}
@@ -214,6 +237,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Belts"
               item={outfit.Belts}
@@ -225,6 +249,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Shoes"
               item={outfit.Shoes}
@@ -233,6 +258,7 @@ const OutfitTab = ({
           <div className="col-span-1 row-span-1 flex items-center justify-center">
             <CatSection
               onDelete={onDelete}
+              setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
               category="Socks"
               item={outfit.Socks}
@@ -254,11 +280,12 @@ const OutfitTab = ({
             Save
           </Button>
         </div>
-        <div className="relative col-span-1 row-span-1 flex justify-center h-full p-6">
+        <div className="relative col-span-1 row-span-1 flex justify-center h-full py-6">
           <SavedOutfitsList
             savedOutfits={savedOutfits}
             setSavedOutfits={setSavedOutfits}
-            setSelectedItems={setSelectedItems}
+            selectedOutfitId={selectedOutfitId}
+            handleViewOutfit={handleViewOutfit}
           />
           <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
         </div>

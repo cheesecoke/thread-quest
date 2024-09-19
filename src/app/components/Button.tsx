@@ -3,12 +3,13 @@ import Link from "next/link";
 
 const Button = ({
   children,
-  variant = "flat", // flat (default) or outlined
-  type = "primary", // primary (default) or secondary
-  size = "md", // sm, md, lg
-  soft = false, // soft style
+  variant = "flat",
+  type = "primary",
+  size = "md",
+  soft = false,
   disabled = false,
   href,
+  externalLink = false,
   className,
   ...props
 }: {
@@ -19,6 +20,7 @@ const Button = ({
   soft?: boolean;
   disabled?: boolean;
   href?: string;
+  externalLink?: boolean;
   className?: string;
   [key: string]: any;
 }) => {
@@ -56,7 +58,7 @@ const Button = ({
     ? "border-2 border-secondary-light text-secondary-light opacity-50 cursor-not-allowed"
     : soft
     ? "border-2 border-secondary-soft text-secondary hover:border-secondary-light"
-    : "border-2 border-secondary text-secondary hover:bg-secondary hover:text-secondary-light";
+    : "border-2 border-secondary-dark text-secondary-dark hover:bg-secondary-dark hover:text-white";
 
   // Determine the styles for flat or outlined based on primary or secondary
   const buttonStyles =
@@ -68,32 +70,42 @@ const Button = ({
       ? outlinedPrimary
       : outlinedSecondary;
 
-  // Combine the styles
   const combinedClassName = `${baseStyles} ${
     sizeStyles[size]
   } ${buttonStyles} ${className || ""}`;
 
-  // If the button has a link (href), use the Link component
-  if (href && !disabled) {
+  if (href && externalLink && !disabled) {
     return (
-      <Link href={href} passHref legacyBehavior>
-        <a className={combinedClassName.trim()} {...props}>
-          {children}
-        </a>
-      </Link>
-    );
-  } else {
-    return (
-      <button
-        type="button"
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         className={combinedClassName.trim()}
-        disabled={disabled}
         {...props}
       >
         {children}
-      </button>
+      </a>
     );
   }
+
+  if (href && !disabled) {
+    return (
+      <Link href={href} className={combinedClassName.trim()} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={combinedClassName.trim()}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  );
 };
 
 export default Button;

@@ -20,6 +20,8 @@ export default function InventoryClient({
     {}
   );
 
+  console.log("Selected items:", selectedItems);
+
   useEffect(() => {
     console.log("Selected items have been updated.", selectedItems);
   }, [selectedItems]);
@@ -52,7 +54,7 @@ export default function InventoryClient({
   console.log(categorizedItems);
 
   return (
-    <div className="mt-8">
+    <div className="mt-2">
       {/* Mobile view: Select dropdown */}
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
@@ -74,7 +76,7 @@ export default function InventoryClient({
       </div>
 
       {/* Desktop view: Tab navigation */}
-      <div className="hidden sm:block">
+      <div className="hidden sm:flex items-center justify-center">
         <nav aria-label="Tabs" className="flex space-x-4">
           {tabs.map((tab) => (
             <button
@@ -82,9 +84,9 @@ export default function InventoryClient({
               onClick={() => setSelectedTab(tab.name)}
               className={`${
                 selectedTab === tab.name
-                  ? "border border-neutral-light text-accent"
-                  : "text-primary hover:text-accent hover:bg-neutral-light"
-              } rounded-lg px-3 py-2 text-sm font-medium transition duration-300 ease-in-out`}
+                  ? "border-secondary text-secondary-dark"
+                  : "border-transparent text-primary hover:border-neutral-mid hover:text-neutral-dark"
+              } whitespace-nowrap border-b-2 px-1 py-4 text-md font-medium`}
             >
               {tab.name}
             </button>

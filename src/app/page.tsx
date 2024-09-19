@@ -63,7 +63,7 @@ export default function Home() {
                   <Button href="/clothing">Shop</Button>
                   <Link
                     href="/clothing"
-                    className="text-sm font-semibold leading-6 text-primary"
+                    className="text-sm font-semibold leading-6 text-secondary-dark"
                   >
                     Men's Clothing <span aria-hidden="true">→</span>
                   </Link>
@@ -132,51 +132,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <ul
-          role="list"
-          className={`${
-            pages.length === 1
-              ? "flex w-full justify-center"
-              : "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          }
-            ${pages.length === 2 ? "lg:grid-cols-2" : ""}`}
-        >
-          {pages.map((page) => (
-            <li
-              key={page.name}
-              className="col-span-1 divide-y divide-neutral-mid rounded-lg bg-white shadow"
-            >
-              <div className="flex w-full items-center justify-between space-x-6 p-6">
-                <div className="flex-1 truncate">
-                  <div className="flex items-center space-x-3">
-                    <h3 className="truncate text-sm font-semibold text-primary">
-                      {page.name}
-                    </h3>
-                  </div>
-                  <p className="mt-1 truncate text-sm text-text-primary">
-                    {page.description}
-                  </p>
-                </div>
-              </div>
-              <div>
-                <div className="-mt-px flex divide-x divide-neutral-mid">
-                  <div className="flex w-0 flex-1">
-                    <Link
-                      href={page.url}
-                      className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-primary hover:text-accent"
-                    >
-                      Shop &rarr;
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* </main> */}
     </div>
   );
 }

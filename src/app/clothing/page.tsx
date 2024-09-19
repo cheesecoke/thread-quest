@@ -17,10 +17,7 @@ export default async function ClothingPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SEOHead page="clothing" />
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <div className="flex justify-start items-center border-b border-neutral-mid pb-10">
-          <h1 className="text-4xl font-bold">Men's Clothing</h1>
-        </div>
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
         {/* Render client-side logic */}
         <ClothingClient itemsData={itemsData} />
       </div>

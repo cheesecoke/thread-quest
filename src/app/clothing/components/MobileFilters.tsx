@@ -36,7 +36,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
   clearFilters,
 }) => {
   return (
-    <div className="flex flex-wrap gap-2 my-4">
+    <div className="flex flex-wrap gap-2 my-8">
       <div className="flex items-center justify-between w-full">
         <h2 className="text-lg font-heading font-semibold text-primary">
           Filters
@@ -44,7 +44,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
         <button
           type="button"
           onClick={clearFilters}
-          className="text-sm text-text-white hover:text-primary"
+          className="text-sm text-secondary hover:text-secondary-dark"
         >
           Clear all
         </button>

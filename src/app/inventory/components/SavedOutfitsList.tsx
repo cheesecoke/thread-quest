@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import Button from "@/app/components/Button";
-import { set } from "mongoose";
 
 const statuses = {
   Purchased: "text-success bg-success-light ring-success",
@@ -18,13 +17,14 @@ interface OutfitItem {
   status: Status;
   dueDate: string;
   dueDateTime: string;
-  items: any; // Add types for items
+  items: { [key: string]: any };
 }
 
 interface SavedOutfitsListProps {
   savedOutfits: OutfitItem[];
   setSavedOutfits: (value: OutfitItem[]) => void;
-  setSelectedItems: (items: any) => void;
+  selectedOutfitId: number | null;
+  handleViewOutfit: (items: { [key: string]: any }, id: number) => void;
 }
 
 function classNames(...classes: string[]) {
@@ -34,10 +34,13 @@ function classNames(...classes: string[]) {
 export default function SavedOutfitsList({
   savedOutfits,
   setSavedOutfits,
-  setSelectedItems,
+  selectedOutfitId,
+  handleViewOutfit,
 }: SavedOutfitsListProps) {
   const [editOutfit, setEditOutfit] = useState<number | null>(null);
   const [editedName, setEditedName] = useState<string>("");
+
+  console.log("setSelectedOutfitId", selectedOutfitId);
 
   const handleEditOutfit = (id: number, name: string) => {
     setEditOutfit(id);
@@ -47,20 +50,16 @@ export default function SavedOutfitsList({
   const saveEditedName = (id: number) => {
     const updatedOutfits = savedOutfits.map((outfit: OutfitItem) =>
       outfit.id === id ? { ...outfit, name: editedName } : outfit
-    ) as OutfitItem[];
-    setSavedOutfits(updatedOutfits as OutfitItem[]);
+    );
+    setSavedOutfits(updatedOutfits);
     localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
     setEditOutfit(null);
   };
 
   const handleDeleteOutfit = (id: number) => {
     const updatedOutfits = savedOutfits.filter((outfit) => outfit.id !== id);
-    setSavedOutfits(updatedOutfits as OutfitItem[]);
+    setSavedOutfits(updatedOutfits);
     localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
-  };
-
-  const handleViewOutfit = (items: OutfitItem) => {
-    setSelectedItems(items);
   };
 
   const handlePurchaseStatus = (id: number) => {
@@ -68,11 +67,14 @@ export default function SavedOutfitsList({
       outfit.id === id
         ? {
             ...outfit,
-            status: outfit.status === "Purchased" ? "In progress" : "Purchased",
+            status:
+              outfit.status === "Purchased"
+                ? ("In progress" as Status)
+                : ("Purchased" as Status),
           }
         : outfit
     );
-    setSavedOutfits(updatedOutfits as OutfitItem[]);
+    setSavedOutfits(updatedOutfits);
     localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
   };
 
@@ -81,7 +83,10 @@ export default function SavedOutfitsList({
       {savedOutfits.map((outfit) => (
         <li
           key={outfit.id}
-          className="flex items-center justify-between gap-x-6 py-5"
+          className={classNames(
+            "flex items-center justify-between gap-x-6 py-5 px-6",
+            selectedOutfitId === outfit.id ? "bg-neutral-light" : ""
+          )}
         >
           <div className="min-w-0">
             <div className="flex items-start gap-x-3">
@@ -115,7 +120,6 @@ export default function SavedOutfitsList({
           <div className="flex flex-none items-center gap-x-4">
             {editOutfit === outfit.id ? (
               <>
-                {/* Add handles to api call to update saved item */}
                 <Button
                   href="#"
                   variant="outlined"
@@ -123,7 +127,7 @@ export default function SavedOutfitsList({
                   onClick={() => handlePurchaseStatus(outfit.id)}
                   className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid"
                 >
-                  Purchased<span className="sr-only">, {outfit.name}</span>
+                  Status<span className="sr-only">, {outfit.name}</span>
                 </Button>
                 <Button
                   variant="outlined"
@@ -136,15 +140,12 @@ export default function SavedOutfitsList({
             ) : (
               <>
                 <Button
-                  onClick={() => handleViewOutfit(outfit.items)}
+                  onClick={() => handleViewOutfit(outfit.items, outfit.id)}
                   variant="outlined"
                   size="sm"
                   href={outfit.href}
                 >
                   View Outfit
-                </Button>
-                <Button variant="outlined" size="sm" href="#">
-                  Buy Outfit<span className="sr-only">, {outfit.name}</span>
                 </Button>
               </>
             )}
