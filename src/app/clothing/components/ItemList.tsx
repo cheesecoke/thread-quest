@@ -18,6 +18,7 @@ type ItemListProps = {
 
 const ItemList: React.FC<ItemListProps> = ({ items }) => {
   // Safeguard: Ensure items is an array before mapping
+  // Pass Loading state to only show one at a time
   if (!Array.isArray(items) || items.length === 0) {
     return <div>No items to display.</div>;
   }
@@ -26,7 +27,7 @@ const ItemList: React.FC<ItemListProps> = ({ items }) => {
     <div className="flex flex-wrap">
       {items.map((item) => (
         <div key={item._id} className="w-1/2 md:w-1/3 xl:w-1/4 p-4">
-          <div className="border border-neutral-mid rounded-lg overflow-hidden shadow-lg">
+          <div className="border border-neutral-mid rounded-lg overflow-hidden shadow">
             <a href={item.link}>
               <Image
                 src={item.imageUrl}

@@ -40,8 +40,6 @@ export default function SavedOutfitsList({
   const [editOutfit, setEditOutfit] = useState<number | null>(null);
   const [editedName, setEditedName] = useState<string>("");
 
-  console.log("setSelectedOutfitId", selectedOutfitId);
-
   const handleEditOutfit = (id: number, name: string) => {
     setEditOutfit(id);
     setEditedName(name);

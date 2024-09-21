@@ -2,7 +2,7 @@ import NavBar from "./components/NavBar";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/app/components/Button";
-import content from "@/config/content";
+import { content } from "@/config/content";
 
 const pages = [
   {

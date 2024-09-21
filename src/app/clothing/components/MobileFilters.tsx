@@ -1,42 +1,36 @@
 import React from "react";
+import { categories, priceRanges } from "@/config/content";
 
 type MobileFiltersProps = {
-  availableTags: string[];
-  activeFilters: string[];
-  activeCategories: string[];
+  activeTags: string[];
   activeCompanies: string[];
   activePriceRange: string | null;
-  onFilterChange: (filter: string, checked: boolean) => void;
-  onCategoryChange: (category: string, checked: boolean) => void;
+  onTagsChange: (filter: string, checked: boolean) => void;
   onCompanyChange: (company: string, checked: boolean) => void;
   onPriceChange: (priceRange: string | null, checked: boolean) => void;
   clearFilters: () => void;
 };
 
-const companies = ["Roark"];
-const categories = ["Bottoms", "Tops", "Outerwear", "Miscellaneous"];
-const priceRanges = [
-  { label: "Less than $50", value: "less-50" },
-  { label: "$50 - $100", value: "50-100" },
-  { label: "$100 - $200", value: "100-200" },
-  { label: "$200 - $500", value: "200-500" },
-  { label: "More than $500", value: "more-500" },
-];
+// Companies and categories derived from content
+const companies = categories.find((c) => c.id === "company")?.tags || [];
+const availableTags = categories.reduce<string[]>((acc, c) => {
+  if (c.id !== "company") {
+    return [...acc, ...c.tags];
+  }
+  return acc;
+}, []);
 
 const MobileFilters: React.FC<MobileFiltersProps> = ({
-  availableTags = [], // Fallback to an empty array if undefined
-  activeFilters = [],
-  activeCategories = [],
+  activeTags = [],
   activeCompanies = [],
   activePriceRange = null,
-  onFilterChange,
-  onCategoryChange,
+  onTagsChange,
   onCompanyChange,
   onPriceChange,
   clearFilters,
 }) => {
   return (
-    <div className="flex flex-wrap gap-2 my-8">
+    <div className="flex flex-wrap gap-2 my-4">
       <div className="flex items-center justify-between w-full">
         <h2 className="text-lg font-heading font-semibold text-primary">
           Filters
@@ -44,39 +38,11 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
         <button
           type="button"
           onClick={clearFilters}
-          className="text-sm text-secondary hover:text-secondary-dark"
+          className="text-sm text-secondary-dark focus:text-primary hover:text-primary transition duration-200 "
         >
           Clear all
         </button>
       </div>
-
-      {/* Render price range pills */}
-      {priceRanges.map((range) => (
-        <button
-          key={range.value}
-          onClick={() =>
-            onPriceChange(
-              activePriceRange === range.value ? null : range.value,
-              activePriceRange !== range.value
-            )
-          }
-          className={`flex items-center px-4 py-2 rounded-full border text-sm ${
-            activePriceRange === range.value
-              ? "bg-accent text-white hover:bg-primary"
-              : "bg-neutral-light text-primary hover:bg-neutral-mid"
-          }`}
-        >
-          {range.label}
-          {activePriceRange === range.value && (
-            <span
-              onClick={() => onPriceChange(null, false)}
-              className="ml-2 cursor-pointer"
-            >
-              &times;
-            </span>
-          )}
-        </button>
-      ))}
 
       {/* Render company pills */}
       {companies.map((company) => (
@@ -85,7 +51,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           onClick={() =>
             onCompanyChange(company, !activeCompanies.includes(company))
           }
-          className={`flex items-center px-4 py-2 rounded-full border text-sm ${
+          className={`flex items-center px-4 py-2 rounded-full border text-sm transition duration-200 ${
             activeCompanies.includes(company)
               ? "bg-accent text-white hover:bg-primary"
               : "bg-neutral-light text-primary hover:bg-neutral-mid"
@@ -103,47 +69,22 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
         </button>
       ))}
 
-      {/* Render category pills */}
-      {categories.map((category) => (
-        <button
-          key={category}
-          onClick={() =>
-            onCategoryChange(category, !activeCategories.includes(category))
-          }
-          className={`flex items-center px-4 py-2 rounded-full border text-sm ${
-            activeCategories.includes(category)
-              ? "bg-accent text-white hover:bg-primary"
-              : "bg-neutral-light text-primary hover:bg-neutral-mid"
-          }`}
-        >
-          {category}
-          {activeCategories.includes(category) && (
-            <span
-              onClick={() => onCategoryChange(category, false)}
-              className="ml-2 cursor-pointer"
-            >
-              &times;
-            </span>
-          )}
-        </button>
-      ))}
-
       {/* Render tag pills */}
       {availableTags.length > 0 ? (
         availableTags.map((tag) => (
           <button
             key={tag}
-            onClick={() => onFilterChange(tag, !activeFilters.includes(tag))}
-            className={`flex items-center px-4 py-2 rounded-full border text-sm ${
-              activeFilters.includes(tag)
+            onClick={() => onTagsChange(tag, !activeTags.includes(tag))}
+            className={`flex items-center px-4 py-2 rounded-full border text-sm transition duration-200 ${
+              activeTags.includes(tag)
                 ? "bg-accent text-white hover:bg-primary"
                 : "bg-neutral-light text-primary hover:bg-neutral-mid"
             }`}
           >
-            {tag}
-            {activeFilters.includes(tag) && (
+            {tag.charAt(0).toUpperCase() + tag.slice(1)}
+            {activeTags.includes(tag) && (
               <span
-                onClick={() => onFilterChange(tag, false)}
+                onClick={() => onTagsChange(tag, false)}
                 className="ml-2 cursor-pointer"
               >
                 &times;
@@ -152,8 +93,38 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
           </button>
         ))
       ) : (
-        <p className="text-sm text-text-white">No tags available</p>
+        <p className="text-sm text-text-secondary">No tags available</p>
       )}
+
+      {/* Render price range pills */}
+      {Object.entries(priceRanges).map(([rangeKey, rangeValue]) => (
+        <button
+          key={rangeKey}
+          onClick={() =>
+            onPriceChange(
+              activePriceRange === rangeKey ? null : rangeKey,
+              activePriceRange !== rangeKey
+            )
+          }
+          className={`flex items-center px-4 py-2 rounded-full border text-sm transition duration-200 ${
+            activePriceRange === rangeKey
+              ? "bg-accent text-white hover:bg-primary"
+              : "bg-neutral-light text-primary hover:bg-neutral-mid"
+          }`}
+        >
+          {`${rangeValue[1] === Infinity ? "" : `$${rangeValue[0]} - `} ${
+            rangeValue[1] === Infinity ? "$500+" : `$${rangeValue[1]}`
+          }`}
+          {activePriceRange === rangeKey && (
+            <span
+              onClick={() => onPriceChange(null, false)}
+              className="ml-2 cursor-pointer"
+            >
+              &times;
+            </span>
+          )}
+        </button>
+      ))}
     </div>
   );
 };

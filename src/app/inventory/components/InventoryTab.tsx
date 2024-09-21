@@ -30,7 +30,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
             {category}
           </h3>
           {/* Outer container with ring */}
-          <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6">
+          <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6 shadow">
             {/* Scrollable carousel */}
             <div className="flex gap-4 overflow-x-auto scrollbar-hide">
               {categorizedItems[category].map((item) => {
@@ -41,11 +41,11 @@ const CategorySection: React.FC<CategorySectionProps> = ({
                     className="relative flex-shrink-0 w-40 flex flex-col items-center"
                     onClick={() => onSelectItem(category, item)}
                   >
-                    <div className="relative w-32 h-32 rounded-xl object-cover shadow-lg group cursor-pointer">
+                    <div className="relative w-32 h-32 rounded-xl object-cover group cursor-pointer shadow">
                       <img
                         src={item.imageUrl}
                         alt={item.name}
-                        className="w-full h-full object-cover rounded-lg shadow-lg"
+                        className="w-full h-full object-cover rounded-lg"
                       />
                       <div
                         className={`absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid transition duration-200 ${

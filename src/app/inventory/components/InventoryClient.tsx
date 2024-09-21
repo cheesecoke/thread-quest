@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import OutfitTab from "./OutfitTab";
 import InventoryTab from "./InventoryTab";
+import Link from "next/link";
 
 const tabs = [
   { name: "Inventory", current: false },
@@ -19,12 +20,6 @@ export default function InventoryClient({
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: any }>(
     {}
   );
-
-  console.log("Selected items:", selectedItems);
-
-  useEffect(() => {
-    console.log("Selected items have been updated.", selectedItems);
-  }, [selectedItems]);
 
   const handleSelectItem = (category: string, item: any) => {
     setSelectedItems((prevSelectedItems) => {
@@ -51,8 +46,6 @@ export default function InventoryClient({
     });
   };
 
-  console.log(categorizedItems);
-
   return (
     <div className="mt-2">
       {/* Mobile view: Select dropdown */}
@@ -76,7 +69,7 @@ export default function InventoryClient({
       </div>
 
       {/* Desktop view: Tab navigation */}
-      <div className="hidden sm:flex items-center justify-center">
+      <div className="hidden sm:flex items-center justify-between">
         <nav aria-label="Tabs" className="flex space-x-4">
           {tabs.map((tab) => (
             <button
@@ -92,6 +85,12 @@ export default function InventoryClient({
             </button>
           ))}
         </nav>
+        <Link
+          href="/clothing"
+          className="text-accent hover:tex-accent-dark hover:underline text-md"
+        >
+          Men's Clothing
+        </Link>
       </div>
 
       {/* Content rendering based on selected tab */}

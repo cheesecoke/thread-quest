@@ -139,8 +139,6 @@ const OutfitTab = ({
   const [savedOutfits, setSavedOutfits] = useState<any[]>([]);
   const [selectedOutfitId, setSelectedOutfitId] = useState<number | null>(null); // State to track the currently selected outfit
 
-  console.log("selectedOutfitId", selectedOutfitId);
-
   // Load saved outfits from local storage
   useEffect(() => {
     const outfitsFromStorage = JSON.parse(

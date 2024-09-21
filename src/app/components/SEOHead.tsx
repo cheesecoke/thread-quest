@@ -1,5 +1,5 @@
 import Head from "next/head";
-import content from "@/config/content";
+import { content } from "@/config/content";
 
 const SEOHead = ({ page }: { page: "clothing" | "inventory" }) => {
   return (

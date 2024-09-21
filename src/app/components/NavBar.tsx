@@ -16,7 +16,6 @@ const NavBar: React.FC = () => {
   const pathname = usePathname();
   const activeLink = navLinks.find((link) => link.href === pathname);
 
-  console.log(pathname);
   return (
     <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid">
       <div className="container mx-auto flex justify-between items-center max-w-2xl lg:max-w-7xl">

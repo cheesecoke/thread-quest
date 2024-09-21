@@ -8,6 +8,7 @@ import React, {
   Suspense,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Sidebar from "@/app/clothing/components/Sidebar";
 import MobileFilters from "@/app/clothing/components/MobileFilters";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
@@ -18,6 +19,7 @@ const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
 });
 
 export default function ClothingClient({ itemsData }: { itemsData: any }) {
+  // State to hold items and filters
   const [loadedItems, setLoadedItems] = useState<any[]>(
     itemsData.initialItems || []
   );
@@ -28,54 +30,18 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
   );
   const [filters, setFilters] = useState<{
     tags: string[];
-    categories: string[];
     companies: string[];
-    price: string | null;
+    prices: string | null;
   }>({
     tags: [],
-    categories: [],
     companies: [],
-    price: null,
+    prices: null,
   });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); // Access URL parameters
   const router = useRouter();
-
-  useEffect(() => {
-    if (searchParams) {
-      const query = searchParams;
-      const restoredFilters = {
-        tags: query.getAll("tags"),
-        categories: query.getAll("categories"),
-        companies: query.getAll("companies"),
-        price: query.get("price"),
-      };
-      setFilters(restoredFilters);
-      fetchItems(1, restoredFilters);
-    }
-  }, [searchParams]);
-
-  const fetchItems = async (newPage = 1, appliedFilters = filters) => {
-    setLoading(true);
-    const query = new URLSearchParams(cleanFilters(appliedFilters)).toString();
-    const res = await fetch(`/api/clothing?page=${newPage}&${query}`);
-    const data = await res.json();
-
-    if (newPage === 1) {
-      setLoadedItems(data.items);
-    } else {
-      setLoadedItems((prev: any[]) => [...prev, ...data.items]);
-    }
-
-    setHasMore(
-      data.items.length > 0 && data.items.length < data.totalItemsCount
-    );
-    setPage(newPage);
-    setLoading(false);
-  };
-
-  // Clean filters by removing empty/null values
+  // Utility to clean empty or null filters from URL params
   const cleanFilters = (filters: any) => {
     const cleanedFilters = { ...filters };
     Object.keys(cleanedFilters).forEach((key) => {
@@ -86,59 +52,94 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
     return cleanedFilters;
   };
 
-  const applyFilters = (newFilters: any) => {
-    const query = new URLSearchParams(cleanFilters(newFilters)).toString();
-    const url = `${window.location.pathname}?${query}`;
-    router.replace(url);
-    fetchItems(1, newFilters);
-  };
-
-  // Clear filters function: resets state and URL, and refetches items
-  const clearFilters = () => {
-    const clearedFilters = {
-      tags: [],
-      categories: [],
-      companies: [],
-      price: null,
+  // Initialize state from URL params on component mount
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    const restoredFilters = {
+      tags: params.getAll("tags"),
+      companies: params.getAll("companies"),
+      prices: params.get("prices"),
     };
+    setFilters(restoredFilters); // Set filters state from URL params
+    fetchItems(1, restoredFilters); // Fetch items based on initial filters
+  }, [searchParams]);
 
-    setFilters(clearedFilters); // Clear the filter state
-    applyFilters(clearedFilters); // Update the URL and fetch new data
-  };
+  // Fetch items from the API based on filters
+  const fetchItems = async (newPage = 1, appliedFilters = filters) => {
+    setLoading(true);
+    const query = new URLSearchParams(cleanFilters(appliedFilters)).toString();
+    const res = await fetch(`/api/clothing?page=${newPage}&${query}`);
+    const data = await res.json();
 
-  const toggleFilter = (filterType: string, value: string | string[]) => {
-    let newFilters = { ...filters };
-
-    if (filterType === "tags" || filterType === "categories") {
-      if (Array.isArray(value)) {
-        newFilters[filterType] = value;
-      } else {
-        const filterIndex = newFilters[filterType].indexOf(value as string);
-        if (filterIndex > -1) {
-          newFilters[filterType] = newFilters[filterType].filter(
-            (f) => f !== value
-          );
-        } else {
-          newFilters[filterType].push(value as string);
-        }
-      }
-    } else if (filterType === "price") {
-      newFilters.price = Array.isArray(value) ? value[0] : value;
+    if (newPage === 1) {
+      setLoadedItems(data.items); // Reset items if it's a new page
+    } else {
+      setLoadedItems((prev: any[]) => [...prev, ...data.items]); // Append new items
     }
 
-    applyFilters(newFilters);
+    setHasMore(data.items.length > 0); // Check if there are more items to load
+    setLoading(false);
   };
 
+  // Update URL parameters and trigger item fetch when filters change
+  const applyFilters = (newFilters: any) => {
+    const params = new URLSearchParams();
+
+    // Loop through filters and ensure arrays are handled properly
+    Object.keys(newFilters).forEach((key) => {
+      if (Array.isArray(newFilters[key])) {
+        // Append each array item separately for proper query string format
+        newFilters[key].forEach((item: string) => {
+          params.append(key, item); // Adds each value separately
+        });
+      } else if (newFilters[key]) {
+        // Add non-array values (e.g., price)
+        params.set(key, newFilters[key]);
+      }
+    });
+
+    const query = params.toString();
+    const url = `${window.location.pathname}?${query}`;
+    router.replace(url); // Update the URL with properly formatted params
+    fetchItems(1, newFilters); // Fetch items based on updated filters
+  };
+
+  // Handle changes in filters
+  const handleFilterChange = (
+    filterType: string,
+    value: string,
+    checked: boolean
+  ) => {
+    const updatedFilters = { ...filters };
+
+    if (filterType === "tags" || filterType === "companies") {
+      if (checked) {
+        updatedFilters[filterType] = [...updatedFilters[filterType], value]; // Add filter if checked
+      } else {
+        updatedFilters[filterType] = updatedFilters[filterType].filter(
+          (item) => item !== value
+        ); // Remove if unchecked
+      }
+    } else if (filterType === "prices") {
+      updatedFilters.prices = checked ? value : null; // Set price filter
+    }
+
+    setFilters(updatedFilters); // Update local state
+    applyFilters(updatedFilters); // Sync with URL and fetch items
+  };
+
+  // Infinite scrolling logic
   const loadMoreItems = useCallback(() => {
     if (!hasMore || loading) return;
-    fetchItems(page + 1);
-  }, [hasMore, loading, page]);
+    fetchItems(page + 1, filters); // Fetch the next page of items
+    setPage((prevPage) => prevPage + 1); // Increment the page number
+  }, [hasMore, loading, page, filters]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !loading) {
-          loadMoreItems();
+          loadMoreItems(); // Load more items when the user scrolls to the bottom
         }
       },
       { rootMargin: "100px" }
@@ -156,29 +157,41 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
     };
   }, [hasMore, loading, loadMoreItems]);
 
+  // Clear all filters and reset
+  const clearFilters = () => {
+    const clearedFilters = {
+      tags: [],
+      companies: [],
+      prices: null,
+    };
+
+    setFilters(clearedFilters); // Clear state
+    applyFilters(clearedFilters); // Clear URL and fetch new items
+  };
+
   return (
     <>
       <div className="lg:hidden">
         <Suspense fallback={<div>Loading Filters...</div>}>
           <MobileFilters
-            availableTags={itemsData.availableTags}
-            activeFilters={filters.tags}
-            activeCategories={filters.categories}
+            activeTags={filters.tags}
             activeCompanies={filters.companies}
-            activePriceRange={filters.price as string | null}
-            onFilterChange={(tags) => toggleFilter("tags", tags)}
-            onCategoryChange={(categories) =>
-              toggleFilter("categories", categories)
+            activePriceRange={filters.prices as string | null}
+            onTagsChange={(tag, checked) =>
+              handleFilterChange("tags", tag, checked)
             }
-            onCompanyChange={(companies) =>
-              toggleFilter("companies", companies)
+            onCompanyChange={(company, checked) =>
+              handleFilterChange("companies", company, checked)
             }
-            onPriceChange={(price) => toggleFilter("price", price || "")}
+            onPriceChange={(price, checked) =>
+              handleFilterChange("prices", price as string, checked)
+            }
             clearFilters={clearFilters}
           />
         </Suspense>
       </div>
       <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+        {/* Sidebar for Filters */}
         <aside className="h-screen sticky top-24 lg:block hidden">
           <div className="flex justify-between py-6">
             <h2 className="text-lg font-heading font-bold text-primary">
@@ -193,27 +206,35 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
             </button>
           </div>
           <div className="overflow-y-auto max-h-[calc(100vh-96px)] pb-32">
-            <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6">
+            <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6 shadow">
               <Sidebar
-                availableTags={itemsData.availableTags}
-                activeFilters={filters.tags}
-                activeCategories={filters.categories}
+                activeTags={filters.tags}
                 activeCompanies={filters.companies}
-                activePriceRange={filters.price}
-                onFilterChange={(tags) => toggleFilter("tags", tags)}
-                onCategoryChange={(categories) =>
-                  toggleFilter("categories", categories)
+                activePriceRange={filters.prices}
+                onTagsChange={(tag, checked) =>
+                  handleFilterChange("tags", tag, checked)
                 }
-                onCompanyChange={(companies) =>
-                  toggleFilter("companies", companies)
+                onCompanyChange={(company, checked) =>
+                  handleFilterChange("companies", company, checked)
                 }
-                onPriceChange={(price) => toggleFilter("price", price || "")}
+                onPriceChange={(price, checked) =>
+                  handleFilterChange("prices", price as string, checked)
+                }
               />
             </div>
           </div>
         </aside>
 
+        {/* Item list section */}
         <div className="lg:col-span-2 xl:col-span-3">
+          <div className="flex justify-end py-6">
+            <Link
+              href="/inventory"
+              className="text-sm text-accent hover:text-accent-dark hover:underline"
+            >
+              Inventory
+            </Link>
+          </div>
           <Suspense fallback={<div>Loading Items...</div>}>
             {loadedItems.length > 0 ? (
               <ItemList items={loadedItems} />
@@ -221,8 +242,8 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
               <div>No Items to display.</div>
             )}
           </Suspense>
-          <div ref={observerRef}></div>
           {loading && <div>Loading more items...</div>}
+          <div ref={observerRef} />
         </div>
         <ScrollToTopButton />
       </div>

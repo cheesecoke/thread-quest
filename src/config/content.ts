@@ -1,6 +1,6 @@
 // src/config/content.ts
 // layout.tsx sets the default SEO, Change the default there.
-const content = {
+export const content = {
   hero: {
     title: "Curated Fashion from our Favorite Brands",
     subtitle:
@@ -20,4 +20,38 @@ const content = {
   },
 };
 
-export default content;
+export const categories = [
+  {
+    id: "company",
+    name: "Company",
+    tags: ["Roark", "Passenger"],
+  },
+  {
+    id: "bottoms",
+    name: "Bottoms",
+    tags: ["pants", "shorts"],
+  },
+  {
+    id: "tops",
+    name: "Tops",
+    tags: ["shirts", "polos", "sweaters", "hoodies"],
+  },
+  {
+    id: "outerwear",
+    name: "Outerwear",
+    tags: ["jackets", "pullovers", "coats"],
+  },
+  {
+    id: "miscellaneous",
+    name: "Miscellaneous",
+    tags: ["hats", "belts"],
+  },
+];
+
+export const priceRanges = {
+  "less-50": [0, 50],
+  "50-100": [50, 100],
+  "100-200": [100, 200],
+  "200-500": [200, 500],
+  "more-500": [500, Infinity],
+};
