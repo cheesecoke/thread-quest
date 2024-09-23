@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Bars3Icon } from "@heroicons/react/20/solid";
+import { Bars3Icon, ArrowLeftIcon } from "@heroicons/react/20/solid";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,11 +14,12 @@ const navLinks = [
 ];
 
 const NavBar: React.FC = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const activeLink = navLinks.find((link) => link.href === pathname);
 
   return (
-    <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid">
+    <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid px-6 h-16">
       <div className="container mx-auto flex justify-between items-center max-w-2xl lg:max-w-7xl">
         <div className="flex justify-start items-center">
           <Image
@@ -25,17 +27,25 @@ const NavBar: React.FC = () => {
             alt="ThreadQuest Logo"
             width={65}
             height={65}
+            className="hidden sm:flex"
           />
           <Link
             href="/"
-            className="text-accent font-logo text-xl font-semibold"
+            className="hidden sm:flex text-accent font-logo text-md md:text-lg font-semibold"
           >
             Thread-Quest
           </Link>
+          <button
+            onClick={() => router.back()} // Trigger back navigation
+            className="flex sm:hidden items-center space-x-2 py-2 bg-transparent text-primary hover:text-secondary transition duration-150 ease-in-out"
+          >
+            <ArrowLeftIcon className="h-6 w-6" /> {/* Heroicon arrow */}
+            <span>Back</span> {/* Optional text */}
+          </button>
         </div>
 
         <div className="relative flex justify-between items-center space-x-2">
-          <div className="text-neutral-mid text-md mr-4 transition duration-300 ease-in-out">
+          <div className="text-neutral-mid text-sm md:text-md mr-4 transition duration-300 ease-in-out">
             Viewing{" "}
             <span className="text-secondary-dark">
               <i>{activeLink?.name}</i>

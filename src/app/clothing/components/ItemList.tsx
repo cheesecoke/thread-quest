@@ -39,7 +39,7 @@ const ItemList: React.FC<ItemListProps> = ({ items }) => {
             </a>
             <div className="p-4">
               {/* Updated item name with font-heading */}
-              <h3 className="text-lg font-heading font-bold text-primary">
+              <h3 className="text-sm sm:text-lg font-heading font-bold text-primary">
                 {item.name}
               </h3>
               <p className="text-lg font-body text-primary">${item.price}</p>

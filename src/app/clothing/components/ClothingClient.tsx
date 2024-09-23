@@ -190,7 +190,7 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
           />
         </Suspense>
       </div>
-      <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+      <div className="pt-0 sm:pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
         {/* Sidebar for Filters */}
         <aside className="h-screen sticky top-24 lg:block hidden">
           <div className="flex justify-between py-6">
@@ -227,14 +227,6 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
 
         {/* Item list section */}
         <div className="lg:col-span-2 xl:col-span-3">
-          <div className="flex justify-end py-6">
-            <Link
-              href="/inventory"
-              className="text-sm text-accent hover:text-accent-dark hover:underline"
-            >
-              Inventory
-            </Link>
-          </div>
           <Suspense fallback={<div>Loading Items...</div>}>
             {loadedItems.length > 0 ? (
               <ItemList items={loadedItems} />
