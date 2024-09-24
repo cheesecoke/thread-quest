@@ -1,11 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "app/api/clothing/route.ts": {
-      "maxDuration": 55,
-      "memory": 1024
-    },
-    "app/api/[company]/route.ts": {
+    "app/api/**/route.ts": {
       "maxDuration": 55,
       "memory": 1024
     }

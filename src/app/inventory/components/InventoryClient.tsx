@@ -3,23 +3,24 @@ import React, { useEffect, useState } from "react";
 import OutfitTab from "./OutfitTab";
 import InventoryTab from "./InventoryTab";
 import Link from "next/link";
+import { useSavedItems } from "@/context/SavedItemsContext";
+import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
 
 const tabs = [
   { name: "Inventory", current: false },
   { name: "Outfit", current: true },
 ];
 
-interface InventoryClientProps {
-  categorizedItems: any; // Replace 'any' with the appropriate type if known
-}
+interface InventoryClientProps {}
 
-export default function InventoryClient({
-  categorizedItems,
-}: InventoryClientProps) {
+export default function InventoryClient({}: InventoryClientProps) {
+  const { savedItems } = useSavedItems();
   const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: any }>(
     {}
   );
+
+  const categorizedItems = categorizeSavedItems(savedItems);
 
   const handleSelectItem = (category: string, item: any) => {
     setSelectedItems((prevSelectedItems) => {

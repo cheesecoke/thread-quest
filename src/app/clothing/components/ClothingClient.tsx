@@ -8,11 +8,11 @@ import React, {
   Suspense,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import Sidebar from "@/app/clothing/components/Sidebar";
 import MobileFilters from "@/app/clothing/components/MobileFilters";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
 import dynamic from "next/dynamic";
+import { SavedItemsProvider } from "@/context/SavedItemsContext";
 
 const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
   ssr: false,
@@ -170,7 +170,7 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
   };
 
   return (
-    <>
+    <SavedItemsProvider>
       <div className="lg:hidden">
         <Suspense fallback={<div>Loading Filters...</div>}>
           <MobileFilters
@@ -239,6 +239,6 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
         </div>
         <ScrollToTopButton />
       </div>
-    </>
+    </SavedItemsProvider>
   );
 }
