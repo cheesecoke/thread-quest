@@ -39,8 +39,9 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
   });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const searchParams = useSearchParams(); // Access URL parameters
+  const searchParams = useSearchParams();
   const router = useRouter();
+
   // Utility to clean empty or null filters from URL params
   const cleanFilters = (filters: any) => {
     const cleanedFilters = { ...filters };
@@ -67,14 +68,15 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
   // Fetch items from the API based on filters
   const fetchItems = async (newPage = 1, appliedFilters = filters) => {
     setLoading(true);
+
     const query = new URLSearchParams(cleanFilters(appliedFilters)).toString();
     const res = await fetch(`/api/clothing?page=${newPage}&${query}`);
     const data = await res.json();
 
     if (newPage === 1) {
-      setLoadedItems(data.items); // Reset items if it's a new page
+      setLoadedItems(data.items); // Reset items if it's a new page (i.e., new filters applied)
     } else {
-      setLoadedItems((prev: any[]) => [...prev, ...data.items]); // Append new items
+      setLoadedItems((prev: any[]) => [...prev, ...data.items]); // Append new items for infinite scroll
     }
 
     setHasMore(data.items.length > 0); // Check if there are more items to load
@@ -100,6 +102,12 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
 
     const query = params.toString();
     const url = `${window.location.pathname}?${query}`;
+
+    // Reset page and loaded items when filters are applied
+    setPage(1);
+    setHasMore(true); // Assume there are more items to fetch
+    setLoadedItems([]); // Clear the loaded items to show only the filtered results
+
     router.replace(url); // Update the URL with properly formatted params
     fetchItems(1, newFilters); // Fetch items based on updated filters
   };
@@ -165,8 +173,17 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
       prices: null,
     };
 
-    setFilters(clearedFilters); // Clear state
-    applyFilters(clearedFilters); // Clear URL and fetch new items
+    // Reset filters, page, and assume more items are available
+    setFilters(clearedFilters);
+    setPage(1);
+    setHasMore(true);
+    setLoadedItems([]); // Clear the items when filters are cleared
+
+    // Update URL to remove all query parameters
+    router.replace(window.location.pathname);
+
+    // Fetch all items without filters
+    fetchItems(1, clearedFilters); // Fetch first page of all items
   };
 
   return (
