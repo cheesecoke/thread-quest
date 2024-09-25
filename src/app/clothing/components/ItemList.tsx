@@ -28,6 +28,7 @@ const ItemList: React.FC<ItemListPropsTypes> = ({ items }) => {
                   width={267}
                   height={321}
                   className="w-full h-48 object-cover"
+                  priority
                 />
               </a>
               <div className="p-4">
