@@ -82,7 +82,7 @@ export default function SavedOutfitsList({
         <li
           key={outfit.id}
           className={classNames(
-            "flex items-center justify-between gap-x-6 py-5 px-6",
+            "flex items-center justify-between gap-x-6 py-5 px-6 transition ease-in-out duration-200",
             selectedOutfitId === outfit.id ? "bg-neutral-light" : ""
           )}
         >
@@ -154,13 +154,13 @@ export default function SavedOutfitsList({
               </MenuButton>
               <MenuItems
                 transition
-                className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-neutral-mid focus:outline-none"
+                className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-neutral-mid focus:outline-none transition ease-in-out duration-200"
               >
                 <MenuItem>
                   <a
                     href="#"
                     onClick={() => handleEditOutfit(outfit.id, outfit.name)}
-                    className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid"
+                    className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid transition ease-in-out duration-200"
                   >
                     Edit
                   </a>
@@ -169,7 +169,7 @@ export default function SavedOutfitsList({
                   <a
                     href="#"
                     onClick={() => handleDeleteOutfit(outfit.id)}
-                    className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid"
+                    className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid transition ease-in-out duration-200"
                   >
                     Delete<span className="sr-only">, {outfit.name}</span>
                   </a>

@@ -9,6 +9,7 @@ interface CatSectionProps {
   setSelectedTab: (tab: string) => void;
   onDelete: (category: string) => void;
   setSelectedOutfitId: (id: number | null) => void;
+  comingSoon?: boolean;
 }
 
 const CatSection = ({
@@ -17,6 +18,7 @@ const CatSection = ({
   setSelectedTab,
   onDelete,
   setSelectedOutfitId,
+  comingSoon,
 }: CatSectionProps) => {
   const hasImage = item?.imageUrl;
 
@@ -49,38 +51,46 @@ const CatSection = ({
 
         <div
           className={`absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid ${
-            hasImage ? "group-hover:ring-accent transition duration-200" : ""
+            hasImage
+              ? "group-hover:ring-accent transition ease-in-out duration-200"
+              : ""
           } `}
         />
         {hasImage && (
           <XCircleIcon
             fill="white"
-            className="absolute -top-3 -right-3 w-8 h-8 text-neutral-mid group-hover:text-accent transition duration-200"
+            className="absolute -top-3 -right-3 w-8 h-8 text-neutral-mid group-hover:text-accent transition ease-in-out duration-200"
           />
         )}
       </div>
-      {hasImage ? (
-        <Button
-          href={item.link}
-          variant="outlined"
-          type="secondary"
-          className="mt-4"
-          size="md"
-          externalLink
-        >
-          Buy Item
-        </Button>
-      ) : (
-        <Button
-          variant="outlined"
-          type="primary"
-          className="mt-4"
-          size="md"
-          onClick={() => setSelectedTab("Inventory")}
-        >
-          Pick
-        </Button>
+      {comingSoon && (
+        <>
+          <br /> <span className="text-sm h-11">Coming Soon</span>
+        </>
       )}
+      {!comingSoon &&
+        (hasImage ? (
+          <Button
+            href={item.link}
+            variant="outlined"
+            type="secondary"
+            className="mt-4"
+            size="md"
+            externalLink
+          >
+            Buy Item
+          </Button>
+        ) : (
+          <Button
+            variant="outlined"
+            type="primary"
+            className="mt-4"
+            size="md"
+            onClick={() => setSelectedTab("Inventory")}
+          >
+            Pick
+          </Button>
+        ))}
     </div>
   );
 };
@@ -239,6 +249,7 @@ const OutfitTab = ({
               setSelectedTab={setSelectedTab}
               category="Belts"
               item={outfit.Belts}
+              comingSoon
             />
           </div>
         </div>
@@ -251,6 +262,7 @@ const OutfitTab = ({
               setSelectedTab={setSelectedTab}
               category="Shoes"
               item={outfit.Shoes}
+              comingSoon
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
@@ -260,6 +272,7 @@ const OutfitTab = ({
               setSelectedTab={setSelectedTab}
               category="Socks"
               item={outfit.Socks}
+              comingSoon
             />
           </div>
         </div>

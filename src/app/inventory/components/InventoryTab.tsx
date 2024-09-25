@@ -53,7 +53,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
                           className="w-full h-full object-cover rounded-lg"
                         />
                         <div
-                          className={`absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid transition duration-200 ${
+                          className={`absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid transition ease-in-out duration-200 ${
                             isSelected
                               ? "border-2 border-success ring-success"
                               : "hover:ring-accent"

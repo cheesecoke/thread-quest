@@ -26,7 +26,7 @@ const Button = ({
 }) => {
   // Base styles for all buttons
   const baseStyles =
-    "font-heading font-bold rounded focus:outline-none transition ease-in-out duration-150";
+    "font-heading font-bold rounded focus:outline-none transition ease-in-out duration-200";
 
   // Size variations
   const sizeStyles = {
