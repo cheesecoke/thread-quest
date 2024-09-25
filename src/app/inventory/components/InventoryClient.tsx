@@ -5,29 +5,31 @@ import InventoryTab from "./InventoryTab";
 import Link from "next/link";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
+import type {
+  SelectedItemsTypes,
+  SelectedItemsCategoriesTypes,
+} from "@/types/inventory/types";
+import { ClothingItemTypes } from "@/types/global/types";
 
 const tabs = [
   { name: "Inventory", current: false },
   { name: "Outfit", current: true },
 ];
 
-interface InventoryClientProps {}
-
-export default function InventoryClient({}: InventoryClientProps) {
+export default function InventoryClient() {
   const { savedItems } = useSavedItems();
   const [selectedTab, setSelectedTab] = useState("Inventory");
-  const [selectedItems, setSelectedItems] = useState<{ [key: string]: any }>(
-    {}
-  );
+  const [selectedItems, setSelectedItems] = useState<SelectedItemsTypes>({});
 
   const categorizedItems = categorizeSavedItems(savedItems);
 
-  const handleSelectItem = (category: string, item: any) => {
+  const handleSelectItem = (category: string, item: ClothingItemTypes) => {
     setSelectedItems((prevSelectedItems) => {
+      const categorykey = category as SelectedItemsCategoriesTypes;
       // If the clicked item is already selected, remove it
-      if (prevSelectedItems[category]?._id === item._id) {
+      if (prevSelectedItems[categorykey]?._id === item._id) {
         const updatedSelectedItems = { ...prevSelectedItems };
-        delete updatedSelectedItems[category]; // Remove the item from selected items
+        delete updatedSelectedItems[categorykey]; // Remove the item from selected items
         return updatedSelectedItems;
       }
 
@@ -42,7 +44,7 @@ export default function InventoryClient({}: InventoryClientProps) {
   const onDelete = (category: string) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedSelectedItems = { ...prevSelectedItems };
-      delete updatedSelectedItems[category]; // Remove the item from selected items
+      delete updatedSelectedItems[category as SelectedItemsCategoriesTypes]; // Remove the item from selected items
       return updatedSelectedItems;
     });
   };

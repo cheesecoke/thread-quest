@@ -6,17 +6,9 @@ import {
 } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { categories, priceRanges } from "@/config/content";
+import type { SidebarPropsTypes } from "@/types/clothing/types";
 
-type SidebarProps = {
-  onTagsChange: (filter: string, checked: boolean) => void;
-  onCompanyChange: (company: string, checked: boolean) => void;
-  onPriceChange: (priceRange: string | null, checked: boolean) => void;
-  activeTags: string[];
-  activeCompanies: string[];
-  activePriceRange: string | null;
-};
-
-const Sidebar: React.FC<SidebarProps> = ({
+const Sidebar: React.FC<SidebarPropsTypes> = ({
   onTagsChange,
   onCompanyChange,
   onPriceChange,

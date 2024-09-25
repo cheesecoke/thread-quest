@@ -1,24 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-
-// Define the item type
-type Item = {
-  _id: string;
-  category: string;
-  tags: string[];
-  name: string;
-  price: string;
-  imageUrl: string;
-  link: string;
-  company: string;
-};
-
-// Define context type
-interface SavedItemsContextType {
-  savedItems: Item[];
-  toggleSaveItem: (item: Item) => void;
-}
+import type { SavedItemsContextType } from "@/types/context/types";
+import type { ClothingItemTypes } from "@/types/global/types";
 
 const SavedItemsContext = createContext<SavedItemsContextType | undefined>(
   undefined
@@ -36,7 +20,7 @@ export const useSavedItems = () => {
 export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [savedItems, setSavedItems] = useState<Item[]>([]);
+  const [savedItems, setSavedItems] = useState<ClothingItemTypes[]>([]);
 
   // Load saved items from localStorage on mount
   useEffect(() => {
@@ -47,7 +31,7 @@ export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   // Function to toggle save state
-  const toggleSaveItem = (item: Item) => {
+  const toggleSaveItem = (item: ClothingItemTypes) => {
     const isAlreadySaved = savedItems.some((saved) => saved._id === item._id);
     const updatedItems = isAlreadySaved
       ? savedItems.filter((saved) => saved._id !== item._id)

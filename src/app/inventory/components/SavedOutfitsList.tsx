@@ -2,30 +2,16 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import Button from "@/app/components/Button";
+import type {
+  OutfitItemTypes,
+  SavedOutfitsListPropsTypes,
+  StatusType,
+} from "@/types/inventory/types";
 
 const statuses = {
   Purchased: "text-success bg-success-light ring-success",
   "In progress": "text-neutral-dark text-warning ring-warning",
 };
-
-type Status = "Purchased" | "In progress";
-
-interface OutfitItem {
-  id: number;
-  name: string;
-  href: string;
-  status: Status;
-  dueDate: string;
-  dueDateTime: string;
-  items: { [key: string]: any };
-}
-
-interface SavedOutfitsListProps {
-  savedOutfits: OutfitItem[];
-  setSavedOutfits: (value: OutfitItem[]) => void;
-  selectedOutfitId: number | null;
-  handleViewOutfit: (items: { [key: string]: any }, id: number) => void;
-}
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -36,7 +22,7 @@ export default function SavedOutfitsList({
   setSavedOutfits,
   selectedOutfitId,
   handleViewOutfit,
-}: SavedOutfitsListProps) {
+}: SavedOutfitsListPropsTypes) {
   const [editOutfit, setEditOutfit] = useState<number | null>(null);
   const [editedName, setEditedName] = useState<string>("");
 
@@ -46,7 +32,7 @@ export default function SavedOutfitsList({
   };
 
   const saveEditedName = (id: number) => {
-    const updatedOutfits = savedOutfits.map((outfit: OutfitItem) =>
+    const updatedOutfits = savedOutfits.map((outfit: OutfitItemTypes) =>
       outfit.id === id ? { ...outfit, name: editedName } : outfit
     );
     setSavedOutfits(updatedOutfits);
@@ -67,8 +53,8 @@ export default function SavedOutfitsList({
             ...outfit,
             status:
               outfit.status === "Purchased"
-                ? ("In progress" as Status)
-                : ("Purchased" as Status),
+                ? ("In progress" as StatusType)
+                : ("Purchased" as StatusType),
           }
         : outfit
     );

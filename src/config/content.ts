@@ -34,7 +34,17 @@ export const categories = [
   {
     id: "tops",
     name: "Tops",
-    tags: ["shirts", "polos", "sweaters", "hoodies"],
+    tags: [
+      "shirts",
+      "polos",
+      "sweaters",
+      "hoodies",
+      "t-shirts",
+      "short sleeves",
+      "long sleeves",
+      "thermals",
+      "flannels",
+    ],
   },
   {
     id: "outerwear",
@@ -44,7 +54,7 @@ export const categories = [
   {
     id: "miscellaneous",
     name: "Miscellaneous",
-    tags: ["hats", "belts"],
+    tags: ["hats", "belts", "bags"],
   },
 ];
 

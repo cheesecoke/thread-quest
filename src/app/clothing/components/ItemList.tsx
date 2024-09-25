@@ -3,31 +3,15 @@ import Image from "next/image";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { useSavedItems } from "@/context/SavedItemsContext";
+import type { ItemListPropsTypes } from "@/types/clothing/types";
 
-type Item = {
-  _id: string;
-  name: string;
-  price: string;
-  category: string;
-  imageUrl: string;
-  link: string;
-  company: string;
-  tags: string[];
-};
-
-type ItemListProps = {
-  items: Item[];
-};
-
-const ItemList: React.FC<ItemListProps> = ({ items }) => {
+const ItemList: React.FC<ItemListPropsTypes> = ({ items }) => {
   const { savedItems, toggleSaveItem } = useSavedItems();
   // Safeguard: Ensure items is an array before mapping
   // Pass Loading state to only show one at a time
   if (!Array.isArray(items) || items.length === 0) {
     return <div>No items to display.</div>;
   }
-
-  console.log("savedItems", savedItems);
 
   return (
     <div className="flex flex-wrap">

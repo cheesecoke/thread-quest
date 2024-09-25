@@ -1,17 +1,12 @@
 import React from "react";
 import { categories, priceRanges } from "@/config/content";
-import { Disclosure } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
-
-type MobileFiltersProps = {
-  activeTags: string[];
-  activeCompanies: string[];
-  activePriceRange: string | null;
-  onTagsChange: (filter: string, checked: boolean) => void;
-  onCompanyChange: (company: string, checked: boolean) => void;
-  onPriceChange: (priceRange: string | null, checked: boolean) => void;
-  clearFilters: () => void;
-};
+import type { MobileFiltersPropsTypes } from "@/types/clothing/types";
 
 // Companies and categories derived from content
 const companies = categories.find((c) => c.id === "company")?.tags || [];
@@ -22,7 +17,7 @@ const availableTags = categories.reduce<string[]>((acc, c) => {
   return acc;
 }, []);
 
-const MobileFilters: React.FC<MobileFiltersProps> = ({
+const MobileFilters: React.FC<MobileFiltersPropsTypes> = ({
   activeTags = [],
   activeCompanies = [],
   activePriceRange = null,
@@ -40,13 +35,13 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
               <h2 className="text-lg font-heading font-semibold text-primary">
                 Filters
               </h2>
-              <Disclosure.Button className="flex justify-center py-2 text-primary focus:outline-none">
+              <DisclosureButton className="flex justify-center py-2 text-primary focus:outline-none">
                 {open ? (
                   <ChevronUpIcon className="w-6 h-6 text-primary" />
                 ) : (
                   <ChevronDownIcon className="w-6 h-6 text-primary" />
                 )}
-              </Disclosure.Button>
+              </DisclosureButton>
               <button
                 type="button"
                 onClick={clearFilters}
@@ -56,7 +51,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
               </button>
             </div>
 
-            <Disclosure.Panel className="flex flex-wrap gap-2 mt-2">
+            <DisclosurePanel className="flex flex-wrap gap-2 mt-2">
               {/* Render company pills */}
               {companies.map((company) => (
                 <button
@@ -140,7 +135,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
                   )}
                 </button>
               ))}
-            </Disclosure.Panel>
+            </DisclosurePanel>
           </>
         )}
       </Disclosure>

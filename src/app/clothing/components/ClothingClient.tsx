@@ -13,21 +13,18 @@ import MobileFilters from "@/app/clothing/components/MobileFilters";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
 import dynamic from "next/dynamic";
 import { SavedItemsProvider } from "@/context/SavedItemsContext";
+import type { ClothingItemTypes } from "@/types/global/types";
 
 const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
   ssr: false,
 });
 
-export default function ClothingClient({ itemsData }: { itemsData: any }) {
+export default function ClothingClient() {
   // State to hold items and filters
-  const [loadedItems, setLoadedItems] = useState<any[]>(
-    itemsData.initialItems || []
-  );
+  const [loadedItems, setLoadedItems] = useState<ClothingItemTypes[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(
-    itemsData.totalItemsCount > loadedItems.length
-  );
+  const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState<{
     tags: string[];
     companies: string[];
@@ -53,18 +50,6 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
     return cleanedFilters;
   };
 
-  // Initialize state from URL params on component mount
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    const restoredFilters = {
-      tags: params.getAll("tags"),
-      companies: params.getAll("companies"),
-      prices: params.get("prices"),
-    };
-    setFilters(restoredFilters); // Set filters state from URL params
-    fetchItems(1, restoredFilters); // Fetch items based on initial filters
-  }, [searchParams]);
-
   // Fetch items from the API based on filters
   const fetchItems = async (newPage = 1, appliedFilters = filters) => {
     setLoading(true);
@@ -82,6 +67,23 @@ export default function ClothingClient({ itemsData }: { itemsData: any }) {
     setHasMore(data.items.length > 0); // Check if there are more items to load
     setLoading(false);
   };
+
+  // Fetch initial items on client side
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  // Initialize state from URL params on component mount
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    const restoredFilters = {
+      tags: params.getAll("tags"),
+      companies: params.getAll("companies"),
+      prices: params.get("prices"),
+    };
+    setFilters(restoredFilters); // Set filters state from URL params
+    fetchItems(1, restoredFilters); // Fetch items based on initial filters
+  }, [searchParams]);
 
   // Update URL parameters and trigger item fetch when filters change
   const applyFilters = (newFilters: any) => {

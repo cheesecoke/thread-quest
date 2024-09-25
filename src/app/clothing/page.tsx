@@ -10,16 +10,12 @@ const ClothingClient = dynamic(
 
 // This page is rendered on the server
 export default async function ClothingPage() {
-  // Fetching data directly within the server component
-  const res = await fetch(`${process.env.API_URL}/api/clothing?page=1`);
-  const itemsData = await res.json();
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SEOHead page="clothing" />
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
         {/* Render client-side logic */}
-        <ClothingClient itemsData={itemsData} />
+        <ClothingClient />
       </div>
     </Suspense>
   );

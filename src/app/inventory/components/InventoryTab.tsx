@@ -2,23 +2,14 @@ import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
 import Link from "next/link";
+import type {
+  InventoryTabPropsTypes,
+  CategorySectionPropsTypes,
+  SelectedItemsCategoriesTypes,
+} from "@/types/inventory/types";
+import { ClothingItemTypes } from "@/types/global/types";
 
-interface Item {
-  _id: string;
-  imageUrl: string;
-  name: string;
-  company: string;
-  price: number;
-}
-
-interface CategorySectionProps {
-  categorizedItems: { [key: string]: Item[] };
-  selectedItems: { [key: string]: Item };
-  onSelectItem: (category: string, item: Item) => void;
-  setSelectedTab: (tab: string) => void;
-}
-
-const CategorySection: React.FC<CategorySectionProps> = ({
+const CategorySection: React.FC<CategorySectionPropsTypes> = ({
   categorizedItems,
   selectedItems,
   onSelectItem,
@@ -38,8 +29,14 @@ const CategorySection: React.FC<CategorySectionProps> = ({
             <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6 shadow">
               {/* Scrollable carousel */}
               <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-                {categorizedItems[category].map((item) => {
-                  const isSelected = selectedItems[category]?._id === item._id;
+                {(
+                  categorizedItems[category as SelectedItemsCategoriesTypes] ||
+                  []
+                ).map((item: ClothingItemTypes) => {
+                  const isSelected =
+                    selectedItems[category as SelectedItemsCategoriesTypes]
+                      ?._id === item._id;
+
                   return (
                     <div
                       key={item._id}
@@ -116,14 +113,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   );
 };
 
-interface InventoryTabProps {
-  categorizedItems: { [key: string]: Item[] };
-  selectedItems: { [key: string]: Item };
-  onSelectItem: (category: string, item: Item) => void;
-  setSelectedTab: (tab: string) => void;
-}
-
-const InventoryTab: React.FC<InventoryTabProps> = ({
+const InventoryTab: React.FC<InventoryTabPropsTypes> = ({
   categorizedItems,
   selectedItems,
   onSelectItem,

@@ -2,15 +2,10 @@ import { useState, useEffect } from "react";
 import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
 import SavedOutfitsList from "./SavedOutfitsList";
-
-interface CatSectionProps {
-  category: string;
-  item: { name: string; imageUrl: string; link?: string };
-  setSelectedTab: (tab: string) => void;
-  onDelete: (category: string) => void;
-  setSelectedOutfitId: (id: number | null) => void;
-  comingSoon?: boolean;
-}
+import type {
+  CatSectionPropsTypes,
+  OutfitTabPropsTypes,
+} from "@/types/inventory/types";
 
 const CatSection = ({
   category,
@@ -19,7 +14,7 @@ const CatSection = ({
   onDelete,
   setSelectedOutfitId,
   comingSoon,
-}: CatSectionProps) => {
+}: CatSectionPropsTypes) => {
   const hasImage = item?.imageUrl;
 
   return (
@@ -95,15 +90,6 @@ const CatSection = ({
   );
 };
 
-interface OutfitTabProps {
-  selectedItems: Record<string, { name: string; imageUrl: string }>;
-  setSelectedItems: (
-    items: Record<string, { name: string; imageUrl: string }>
-  ) => void;
-  setSelectedTab: (tab: string) => void;
-  onDelete: (category: string) => void;
-}
-
 const isOutfitDuplicate = (
   newOutfitItems: Record<string, { name: string; imageUrl: string }>,
   savedOutfits: Array<{
@@ -145,7 +131,7 @@ const OutfitTab = ({
   setSelectedItems,
   setSelectedTab,
   onDelete,
-}: OutfitTabProps) => {
+}: OutfitTabPropsTypes) => {
   const [savedOutfits, setSavedOutfits] = useState<any[]>([]);
   const [selectedOutfitId, setSelectedOutfitId] = useState<number | null>(null); // State to track the currently selected outfit
 
@@ -249,7 +235,6 @@ const OutfitTab = ({
               setSelectedTab={setSelectedTab}
               category="Belts"
               item={outfit.Belts}
-              comingSoon
             />
           </div>
         </div>
