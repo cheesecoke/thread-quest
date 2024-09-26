@@ -10,24 +10,30 @@ import React, {
 import { useSearchParams, useRouter } from "next/navigation";
 import ItemList from "@/app/clothing/components/ItemList";
 import Sidebar from "@/app/clothing/components/Sidebar";
-import MobileFilters from "@/app/clothing/components/MobileFilters";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
 import Spinner from "@/app/components/Spinner";
-import dynamic from "next/dynamic";
 import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import type { ClothingItemTypes } from "@/types/global/types";
+import type { FilterTypes } from "@/types/clothing/types";
+import dynamic from "next/dynamic";
 
-export default function ClothingClient() {
-  // State to hold items and filters
-  const [loadedItems, setLoadedItems] = useState<ClothingItemTypes[]>([]);
+const MobileFilters = dynamic(
+  () => import("@/app/clothing/components/MobileFilters"),
+  { suspense: true }
+);
+
+export default function ClothingClient({
+  initialItems,
+}: {
+  initialItems: ClothingItemTypes[];
+}) {
+  const [loadedItems, setLoadedItems] = useState<ClothingItemTypes[]>(
+    initialItems || []
+  );
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [filters, setFilters] = useState<{
-    tags: string[];
-    companies: string[];
-    prices: string | null;
-  }>({
+  const [filters, setFilters] = useState<FilterTypes>({
     tags: [],
     companies: [],
     prices: null,
@@ -38,7 +44,7 @@ export default function ClothingClient() {
   const router = useRouter();
 
   // Utility to clean empty or null filters from URL params
-  const cleanFilters = (filters: any) => {
+  const cleanFilters = (filters: { [key: string]: any }) => {
     const cleanedFilters = { ...filters };
     Object.keys(cleanedFilters).forEach((key) => {
       if (!cleanedFilters[key] || cleanedFilters[key].length === 0) {
@@ -49,24 +55,28 @@ export default function ClothingClient() {
   };
 
   // Fetch items from the API based on filters
-  const fetchItems = async (newPage = 1, appliedFilters = filters) => {
-    setLoading(true);
+  const fetchItems = useCallback(
+    async (newPage = 1, appliedFilters = filters, reset = false) => {
+      setLoading(true);
+      const query = new URLSearchParams(
+        cleanFilters(appliedFilters)
+      ).toString();
+      const res = await fetch(`/api/clothing?page=${newPage}&${query}`);
+      const data = await res.json();
 
-    const query = new URLSearchParams(cleanFilters(appliedFilters)).toString();
-    const res = await fetch(`/api/clothing?page=${newPage}&${query}`);
-    const data = await res.json();
+      if (reset) {
+        setLoadedItems(data.items); // Reset items if it's a new page
+      } else {
+        setLoadedItems((prev) => [...prev, ...data.items]); // Append new items for infinite scroll
+      }
 
-    if (newPage === 1) {
-      setLoadedItems(data.items); // Reset items if it's a new page (i.e., new filters applied)
-    } else {
-      setLoadedItems((prev: any[]) => [...prev, ...data.items]); // Append new items for infinite scroll
-    }
+      setHasMore(data.items.length > 0); // Check if there are more items to load
+      setLoading(false);
+    },
+    [filters]
+  );
 
-    setHasMore(data.items.length > 0); // Check if there are more items to load
-    setLoading(false);
-  };
-
-  // Initialize state from URL params on component mount
+  // Use searchParams to derive filter state from the URL
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     const restoredFilters = {
@@ -74,62 +84,10 @@ export default function ClothingClient() {
       companies: params.getAll("companies"),
       prices: params.get("prices"),
     };
-    setFilters(restoredFilters); // Set filters state from URL params
-    fetchItems(1, restoredFilters); // Fetch items based on initial filters
+
+    setFilters(restoredFilters); // Sync filters from the URL
+    fetchItems(1, restoredFilters, true); // Fetch items based on updated filters in the URL
   }, [searchParams]);
-
-  // Update URL parameters and trigger item fetch when filters change
-  const applyFilters = (newFilters: any) => {
-    const params = new URLSearchParams();
-
-    // Loop through filters and ensure arrays are handled properly
-    Object.keys(newFilters).forEach((key) => {
-      if (Array.isArray(newFilters[key])) {
-        // Append each array item separately for proper query string format
-        newFilters[key].forEach((item: string) => {
-          params.append(key, item); // Adds each value separately
-        });
-      } else if (newFilters[key]) {
-        // Add non-array values (e.g., price)
-        params.set(key, newFilters[key]);
-      }
-    });
-
-    const query = params.toString();
-    const url = `${window.location.pathname}?${query}`;
-
-    // Reset page and loaded items when filters are applied
-    setPage(1);
-    setHasMore(true); // Assume there are more items to fetch
-    setLoadedItems([]); // Clear the loaded items to show only the filtered results
-
-    router.replace(url); // Update the URL with properly formatted params
-    fetchItems(1, newFilters); // Fetch items based on updated filters
-  };
-
-  // Handle changes in filters
-  const handleFilterChange = (
-    filterType: string,
-    value: string,
-    checked: boolean
-  ) => {
-    const updatedFilters = { ...filters };
-
-    if (filterType === "tags" || filterType === "companies") {
-      if (checked) {
-        updatedFilters[filterType] = [...updatedFilters[filterType], value]; // Add filter if checked
-      } else {
-        updatedFilters[filterType] = updatedFilters[filterType].filter(
-          (item) => item !== value
-        ); // Remove if unchecked
-      }
-    } else if (filterType === "prices") {
-      updatedFilters.prices = checked ? value : null; // Set price filter
-    }
-
-    setFilters(updatedFilters); // Update local state
-    applyFilters(updatedFilters); // Sync with URL and fetch items
-  };
 
   // Infinite scrolling logic
   const loadMoreItems = useCallback(() => {
@@ -138,6 +96,7 @@ export default function ClothingClient() {
     setPage((prevPage) => prevPage + 1); // Increment the page number
   }, [hasMore, loading, page, filters]);
 
+  // Intersection Observer for infinite scrolling
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -162,11 +121,7 @@ export default function ClothingClient() {
 
   // Clear all filters and reset
   const clearFilters = () => {
-    const clearedFilters = {
-      tags: [],
-      companies: [],
-      prices: null,
-    };
+    const clearedFilters = { tags: [], companies: [], prices: null };
 
     // Reset filters, page, and assume more items are available
     setFilters(clearedFilters);
@@ -178,13 +133,66 @@ export default function ClothingClient() {
     router.replace(window.location.pathname);
 
     // Fetch all items without filters
-    fetchItems(1, clearedFilters); // Fetch first page of all items
+    fetchItems(1, clearedFilters, true); // Fetch first page of all items and reset state
+  };
+
+  // Update URL parameters and trigger item fetch when filters change
+  const applyFilters = (newFilters: FilterTypes) => {
+    const params = new URLSearchParams();
+
+    // Loop through filters and ensure arrays are handled properly
+    (Object.keys(newFilters) as (keyof FilterTypes)[]).forEach((key) => {
+      if (Array.isArray(newFilters[key])) {
+        // Append each array item separately for proper query string format
+        (newFilters[key] as string[]).forEach((item) =>
+          params.append(key, item)
+        );
+      } else if (newFilters[key]) {
+        // Add non-array values (e.g., price)
+        params.set(key, newFilters[key] as string);
+      }
+    });
+
+    const query = params.toString();
+    const url = `${window.location.pathname}?${query}`;
+
+    // Reset page and loaded items when filters are applied
+    setPage(1);
+    setHasMore(true); // Assume there are more items to fetch
+    setLoadedItems([]); // Clear the loaded items to show only the filtered results
+
+    router.replace(url); // Update the URL with properly formatted params
+    fetchItems(1, newFilters, true); // Fetch items based on updated filters
+  };
+
+  // Handle changes in filters
+  const handleFilterChange = (
+    filterType: keyof FilterTypes,
+    value: string,
+    checked: boolean
+  ) => {
+    const updatedFilters = { ...filters };
+
+    if (filterType === "tags" || filterType === "companies") {
+      if (checked) {
+        updatedFilters[filterType] = [...updatedFilters[filterType], value]; // Add filter if checked
+      } else {
+        updatedFilters[filterType] = updatedFilters[filterType].filter(
+          (item) => item !== value
+        ); // Remove if unchecked
+      }
+    } else if (filterType === "prices") {
+      updatedFilters.prices = checked ? value : null; // Set price filter
+    }
+
+    setFilters(updatedFilters); // Update local state
+    applyFilters(updatedFilters); // Sync with URL and fetch items
   };
 
   return (
     <SavedItemsProvider>
       <div className="lg:hidden">
-        <Suspense fallback={<div>Loading Filters...</div>}>
+        <Suspense fallback={<Spinner />}>
           <MobileFilters
             activeTags={filters.tags}
             activeCompanies={filters.companies}

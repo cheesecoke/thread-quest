@@ -1,22 +1,27 @@
-import React, { Suspense } from "react";
-import SEOHead from "@/app/components/SEOHead";
-import dynamic from "next/dynamic";
+// app/clothing/page.tsx
 
-// Dynamic import of the client-side component
-const ClothingClient = dynamic(
-  () => import("@/app/clothing/components/ClothingClient"),
-  { ssr: false }
-);
+import ClothingClient from "@/app/clothing/components/ClothingClient";
 
-// This page is rendered on the server
+export const dynamic = "force-dynamic"; // To ensure server-rendering happens
+export const fetchCache = "force-no-store"; // Disable caching for dynamic content
+
+// Server-side fetching for the initial items
+async function fetchInitialItems() {
+  const res = await fetch(`${process.env.API_URL}/api/clothing?page=1`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch items");
+  }
+  const data = await res.json();
+  return data.items; // Assuming items are in the data response
+}
+
 export default async function ClothingPage() {
+  const initialItems = await fetchInitialItems(); // Fetch initial items on the server
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SEOHead page="clothing" />
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-        {/* Render client-side logic */}
-        <ClothingClient />
-      </div>
-    </Suspense>
+    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
+      {/* Pass the initial items to the client component */}
+      <ClothingClient initialItems={initialItems} />
+    </div>
   );
 }

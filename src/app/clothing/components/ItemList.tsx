@@ -13,9 +13,8 @@ const ItemList: React.FC<ItemListPropsTypes> = ({
   loading,
 }) => {
   const { savedItems, toggleSaveItem } = useSavedItems();
-  // Safeguard: Ensure items is an array before mapping
-  // Pass Loading state to only show one at a time
-  if ((!loading && !Array.isArray(items)) || items.length === 0) {
+
+  if (!loading && items.length === 0) {
     return <NoItems clearFilters={clearFilters} />;
   }
 
@@ -29,12 +28,13 @@ const ItemList: React.FC<ItemListPropsTypes> = ({
             <div className="border border-neutral-mid rounded-lg overflow-hidden shadow">
               <a href={item.link}>
                 <Image
-                  src={item.imageUrl}
+                  src={`${item.imageUrl}`}
                   alt={item.name}
                   width={267}
                   height={321}
                   className="w-full h-48 object-cover"
-                  priority
+                  loading="lazy"
+                  quality={70}
                 />
               </a>
               <div className="p-4">
