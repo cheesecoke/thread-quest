@@ -17,10 +17,6 @@ import dynamic from "next/dynamic";
 import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import type { ClothingItemTypes } from "@/types/global/types";
 
-// const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
-//   ssr: false,
-// });
-
 export default function ClothingClient() {
   // State to hold items and filters
   const [loadedItems, setLoadedItems] = useState<ClothingItemTypes[]>([]);
@@ -69,11 +65,6 @@ export default function ClothingClient() {
     setHasMore(data.items.length > 0); // Check if there are more items to load
     setLoading(false);
   };
-
-  // // Fetch initial items on client side
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
 
   // Initialize state from URL params on component mount
   useEffect(() => {
