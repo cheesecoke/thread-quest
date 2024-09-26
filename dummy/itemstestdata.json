@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "_id": {
+        "$oid": "66e1ca8334d1a8100753c30d"
+      },
+      "name": "Hybro Strapback Hat",
+      "price": 39,
+      "category": "Miscellaneous",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RH703_TUN_001.png?v=1722864757",
+      "hoverImageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RH703_TND_0643.jpg?v=1723039270",
+      "link": "https://roark.com/products/hybro-hat-mens-baseball-caps-rh703-15?variant=41090457534535",
+      "company": "Roark",
+      "tags": ["hats"],
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "66e1ca8334d1a8100753c2db"
+      },
+      "name": "On The Range Long Sleeve Western Shirt",
+      "price": 125,
+      "category": "Tops",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/file.png?v=1722863282",
+      "hoverImageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RW555_BLK_101.jpg?v=1722803283",
+      "link": "https://roark.com/products/on-range-mens-wovens-rw555-black-1?variant=41090728460359",
+      "company": "Roark",
+      "tags": ["long sleeve", "shirts"],
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "66e1ca8334d1a8100753c2e7"
+      },
+      "name": "Hebrides Unlined Jacket",
+      "price": 125,
+      "category": "Outerwear",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RJ282_OIO_001.png?v=1722817221",
+      "hoverImageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RJ282_OIO_0373.jpg?v=1722817220",
+      "link": "https://roark.com/products/hebrides-unlined-mens-jackets-rj282-15?variant=41090484469831",
+      "company": "Roark",
+      "tags": ["jackets"],
+      "__v": 0
+    },
+    {
+      "_id": {
+        "$oid": "66e1ca8334d1a8100753c2dc"
+      },
+      "name": "Layover Traveler Pants",
+      "price": 95,
+      "category": "Bottoms",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RP313_BLK_001_d42ecfe3-bf05-4a5a-93e6-66f86c41e9be_1.png?v=1722808011",
+      "hoverImageUrl": "https://cdn.shopify.com/s/files/1/2304/9839/files/RP313_BLK_114172.png?v=1722807896",
+      "link": "https://roark.com/products/layover-traveler-pant-mens-pants-rp313-6?variant=41090552823879",
+      "company": "Roark",
+      "tags": ["pants"],
+      "__v": 0
+    }
+  ]
+}

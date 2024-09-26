@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import type { ClothingItemTypes } from "../types/global/types";
 
-const clothingItemSchema = new mongoose.Schema({
+const clothingItemSchema = new mongoose.Schema<ClothingItemTypes>({
   name: { type: String, required: true },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   category: { type: String, required: true },
   imageUrl: { type: String, required: true },
   link: { type: String, required: true },

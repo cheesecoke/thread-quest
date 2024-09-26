@@ -1,8 +1,9 @@
 import React from "react";
+import Button from "@/app/components/Button";
 
 const ThemeDemo = () => {
   return (
-    <div className="container mx-auto min-h-screen bg-secondary text-primary p-8">
+    <div className="container mx-auto min-h-screen bg-white text-primary p-8 mt-20">
       <h1 className="text-4xl font-logo font-bold text-primary mb-4">
         ThreadQuest - Theme Demo (Font Lora)
       </h1>
@@ -13,7 +14,7 @@ const ThemeDemo = () => {
           Main Color Palette:
         </h2>
         <div className="space-y-2">
-          <div className="p-4 bg-primary text-secondary rounded">
+          <div className="p-4 bg-primary text-text-secondary rounded">
             Primary (Navy): #2C3E50
           </div>
           <div className="p-4 bg-secondary text-primary rounded">
@@ -25,7 +26,111 @@ const ThemeDemo = () => {
         </div>
       </section>
 
-      {/* Heading and Text Examples */}
+      {/* Buttons Example */}
+      <section className="mb-8">
+        <h2 className="text-2xl font-heading font-semibold text-text-primary mb-2">
+          Button Examples:
+        </h2>
+        <div className="space-y-4">
+          {/* Primary Buttons */}
+          <div>
+            <h3 className="text-lg font-heading font-semibold mb-2">
+              Primary Buttons
+            </h3>
+            <div className="space-x-4">
+              <Button type="primary" size="sm">
+                Small Primary
+              </Button>
+              <Button type="primary" size="md">
+                Medium Primary
+              </Button>
+              <Button type="primary" size="lg">
+                Large Primary
+              </Button>
+              <Button type="primary" size="md" soft>
+                Soft Primary
+              </Button>
+              <Button type="primary" size="md" disabled>
+                Disabled Primary
+              </Button>
+            </div>
+          </div>
+
+          {/* Secondary Buttons */}
+          <div>
+            <h3 className="text-lg font-heading font-semibold mb-2">
+              Secondary Buttons
+            </h3>
+            <div className="space-x-4">
+              <Button type="secondary" size="sm">
+                Small Secondary
+              </Button>
+              <Button type="secondary" size="md">
+                Medium Secondary
+              </Button>
+              <Button type="secondary" size="lg">
+                Large Secondary
+              </Button>
+              <Button type="secondary" size="md" soft>
+                Soft Secondary
+              </Button>
+              <Button type="secondary" size="md" disabled>
+                Disabled Secondary
+              </Button>
+            </div>
+          </div>
+
+          {/* Outlined Primary Buttons */}
+          <div>
+            <h3 className="text-lg font-heading font-semibold mb-2">
+              Outlined Primary Buttons
+            </h3>
+            <div className="space-x-4">
+              <Button type="primary" variant="outlined" size="sm">
+                Small Outlined
+              </Button>
+              <Button type="primary" variant="outlined" size="md">
+                Medium Outlined
+              </Button>
+              <Button type="primary" variant="outlined" size="lg">
+                Large Outlined
+              </Button>
+              <Button type="primary" variant="outlined" size="md" soft>
+                Soft Outlined
+              </Button>
+              <Button type="primary" variant="outlined" size="md" disabled>
+                Disabled Outlined
+              </Button>
+            </div>
+          </div>
+
+          {/* Outlined Secondary Buttons */}
+          <div>
+            <h3 className="text-lg font-heading font-semibold mb-2">
+              Outlined Secondary Buttons
+            </h3>
+            <div className="space-x-4">
+              <Button type="secondary" variant="outlined" size="sm">
+                Small Outlined
+              </Button>
+              <Button type="secondary" variant="outlined" size="md">
+                Medium Outlined
+              </Button>
+              <Button type="secondary" variant="outlined" size="lg">
+                Large Outlined
+              </Button>
+              <Button type="secondary" variant="outlined" size="md" soft>
+                Soft Outlined
+              </Button>
+              <Button type="secondary" variant="outlined" size="md" disabled>
+                Disabled Outlined
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Typography Example */}
       <section className="mb-8">
         <h2 className="text-2xl font-heading font-semibold text-text-primary mb-4">
           Typography Example
@@ -56,43 +161,6 @@ const ThemeDemo = () => {
         </div>
       </section>
 
-      {/* Buttons Example */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-heading font-semibold text-text-primary mb-2">
-          Button States:
-        </h2>
-        <div className="space-x-4">
-          <button className="bg-accent text-secondary font-heading px-4 py-2 rounded hover:bg-primary">
-            Active Button
-          </button>
-          <button className="bg-accent text-secondary font-heading px-4 py-2 rounded opacity-50 cursor-not-allowed">
-            Disabled Button
-          </button>
-          <button className="border-2 border-accent text-accent font-heading px-4 py-2 rounded hover:bg-accent hover:text-secondary">
-            Outlined Button
-          </button>
-          <button className="border-2 border-accent text-accent font-heading px-4 py-2 rounded opacity-50 cursor-not-allowed">
-            Outlined Button Disabled
-          </button>
-        </div>
-      </section>
-
-      {/* Font Colors Example */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-heading font-semibold text-text-primary mb-2">
-          Font Colors:
-        </h2>
-        <p className="text-text-primary mb-2 font-body">
-          This is primary text (Dark Navy): #1C2833
-        </p>
-        <p className="text-text-secondary mb-2 font-body">
-          This is secondary text (Grayish Blue): #566573
-        </p>
-        <p className="text-secondary bg-primary p-2 rounded font-body">
-          This is light text on dark background (White): #FFFFFF
-        </p>
-      </section>
-
       {/* UI Feedback Colors Example */}
       <section className="mb-8">
         <h2 className="text-2xl font-heading font-semibold text-text-primary mb-2">
@@ -102,13 +170,13 @@ const ThemeDemo = () => {
           <div className="bg-warning p-4 rounded">
             Warning: This is an amber warning message!
           </div>
-          <div className="bg-info p-4 rounded text-secondary">
+          <div className="bg-info p-4 rounded text-text-secondary">
             Information: This is a blue informational message.
           </div>
-          <div className="bg-success p-4 rounded text-secondary">
+          <div className="bg-success p-4 rounded text-text-secondary">
             Success: Operation completed successfully.
           </div>
-          <div className="bg-error p-4 rounded text-secondary">
+          <div className="bg-error p-4 rounded text-text-secondary">
             Error: Something went wrong!
           </div>
         </div>
@@ -126,7 +194,7 @@ const ThemeDemo = () => {
           <div className="bg-neutral-mid p-4 text-primary rounded">
             Mid Neutral (Cool Gray): #BDC3C7
           </div>
-          <div className="bg-neutral-dark p-4 text-secondary rounded">
+          <div className="bg-neutral-dark p-4 text-text-secondary rounded">
             Dark Neutral (Charcoal): #2F2F2F
           </div>
         </div>

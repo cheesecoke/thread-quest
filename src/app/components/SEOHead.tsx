@@ -1,7 +1,7 @@
 import Head from "next/head";
-import content from "@/config/content";
+import { content } from "@/config/content";
 
-const SEOHead = ({ page }: { page: "clothing" }) => {
+const SEOHead = ({ page }: { page: "clothing" | "inventory" }) => {
   return (
     <Head>
       <title>{content.seo[page].title}</title>

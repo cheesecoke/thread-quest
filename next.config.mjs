@@ -5,20 +5,19 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 const isAnalyzeEnabled = process.env.ANALYZE === "true";
 
 const nextConfig = {
+  experimental: {
+    appDir: true,
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.patagonia.com",
+        hostname: "www.roark.com",
       },
       {
         protocol: "https",
-        hostname: "www.madetrade.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.outerknown.com",
+        hostname: "us.passenger.com",
       },
       {
         protocol: "https",

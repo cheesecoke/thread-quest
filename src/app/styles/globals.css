@@ -6,7 +6,7 @@
   /* --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255; */
-  @apply bg-secondary;
+  @apply bg-white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,7 +19,7 @@
 
 body {
   background-color: white;
-  @apply font-body text-text-primary bg-secondary;
+  @apply font-body text-text-primary bg-white;
 }
 
 h1,
