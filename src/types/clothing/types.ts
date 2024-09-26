@@ -24,4 +24,6 @@ export type MobileFiltersPropsTypes = {
 // Itemslis Component Types
 export type ItemListPropsTypes = {
   items: ClothingItemTypes[];
+  clearFilters: () => void;
+  loading: boolean;
 };

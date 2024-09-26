@@ -8,16 +8,18 @@ import React, {
   Suspense,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import ItemList from "@/app/clothing/components/ItemList";
 import Sidebar from "@/app/clothing/components/Sidebar";
 import MobileFilters from "@/app/clothing/components/MobileFilters";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
+import Spinner from "@/app/components/Spinner";
 import dynamic from "next/dynamic";
 import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import type { ClothingItemTypes } from "@/types/global/types";
 
-const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
-  ssr: false,
-});
+// const ItemList = dynamic(() => import("@/app/clothing/components/ItemList"), {
+//   ssr: false,
+// });
 
 export default function ClothingClient() {
   // State to hold items and filters
@@ -68,10 +70,10 @@ export default function ClothingClient() {
     setLoading(false);
   };
 
-  // Fetch initial items on client side
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  // // Fetch initial items on client side
+  // useEffect(() => {
+  //   fetchItems();
+  // }, []);
 
   // Initialize state from URL params on component mount
   useEffect(() => {
@@ -246,14 +248,14 @@ export default function ClothingClient() {
 
         {/* Item list section */}
         <div className="lg:col-span-2 xl:col-span-3">
-          <Suspense fallback={<div>Loading Items...</div>}>
-            {loadedItems.length > 0 ? (
-              <ItemList items={loadedItems} />
-            ) : (
-              <div>No Items to display.</div>
-            )}
+          <Suspense fallback={<Spinner />}>
+            <ItemList
+              items={loadedItems}
+              clearFilters={clearFilters}
+              loading={loading}
+            />
           </Suspense>
-          {loading && <div>Loading more items...</div>}
+          {loading && <Spinner />}
           <div ref={observerRef} />
         </div>
         <ScrollToTopButton />

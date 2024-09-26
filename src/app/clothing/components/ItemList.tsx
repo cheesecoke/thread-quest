@@ -4,13 +4,19 @@ import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import type { ItemListPropsTypes } from "@/types/clothing/types";
+import NoItems from "./NoItems";
+import Spinner from "@/app/components/Spinner";
 
-const ItemList: React.FC<ItemListPropsTypes> = ({ items }) => {
+const ItemList: React.FC<ItemListPropsTypes> = ({
+  items,
+  clearFilters,
+  loading,
+}) => {
   const { savedItems, toggleSaveItem } = useSavedItems();
   // Safeguard: Ensure items is an array before mapping
   // Pass Loading state to only show one at a time
-  if (!Array.isArray(items) || items.length === 0) {
-    return <div>No items to display.</div>;
+  if ((!loading && !Array.isArray(items)) || items.length === 0) {
+    return <NoItems clearFilters={clearFilters} />;
   }
 
   return (
