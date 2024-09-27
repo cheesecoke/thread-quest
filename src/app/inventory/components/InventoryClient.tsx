@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import OutfitTab from "./OutfitTab";
-import InventoryTab from "./InventoryTab";
+
 import Link from "next/link";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
@@ -10,6 +9,12 @@ import type {
   SelectedItemsCategoriesTypes,
 } from "@/types/inventory/types";
 import { ClothingItemTypes } from "@/types/global/types";
+import dynamic from "next/dynamic";
+
+const OutfitTab = dynamic(() => import("./OutfitTab"));
+const InventoryTab = dynamic(() => import("./InventoryTab"));
+const DeskTopInvNav = dynamic(() => import("./DeskTopInvNav"));
+const MobileDropdown = dynamic(() => import("./MobileDropdown"));
 
 const tabs = [
   { name: "Inventory", current: false },
@@ -51,50 +56,17 @@ export default function InventoryClient() {
 
   return (
     <div className="mt-2">
-      {/* Mobile view: Select dropdown */}
-      <div className="sm:hidden">
-        <label htmlFor="tabs" className="sr-only">
-          Select a tab
-        </label>
-        <select
-          id="tabs"
-          name="tabs"
-          value={selectedTab}
-          onChange={(e) => setSelectedTab(e.target.value)}
-          className="block w-full rounded-lg border-neutral-mid focus:border-accent focus:ring-accent"
-        >
-          {tabs.map((tab) => (
-            <option key={tab.name} value={tab.name}>
-              {tab.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <MobileDropdown
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        tabs={tabs}
+      />
 
-      {/* Desktop view: Tab navigation */}
-      <div className="hidden sm:flex items-center justify-between">
-        <nav aria-label="Tabs" className="flex space-x-4">
-          {tabs.map((tab) => (
-            <button
-              key={tab.name}
-              onClick={() => setSelectedTab(tab.name)}
-              className={`${
-                selectedTab === tab.name
-                  ? "border-secondary text-secondary-dark"
-                  : "border-transparent text-primary hover:border-neutral-mid hover:text-neutral-dark"
-              } whitespace-nowrap border-b-2 px-1 py-4 text-md font-medium`}
-            >
-              {tab.name}
-            </button>
-          ))}
-        </nav>
-        <Link
-          href="/clothing"
-          className="text-accent hover:tex-accent-dark hover:underline text-md"
-        >
-          Men's Clothing
-        </Link>
-      </div>
+      <DeskTopInvNav
+        tabs={tabs}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+      />
 
       {/* Content rendering based on selected tab */}
       <div className="mt-6">

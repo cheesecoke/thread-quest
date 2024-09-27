@@ -90,7 +90,7 @@ const Button = ({
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={combinedClassName.trim()} {...props}>
+      <Link href={href} className={`${combinedClassName.trim()}`} {...props}>
         {children}
       </Link>
     );

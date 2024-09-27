@@ -79,6 +79,7 @@ export default function Home() {
                       alt="Roark Running Shorts"
                       src="/images/pass_shirt.png"
                       className="aspect-[2/3] w-full rounded-xl bg-neutral-light object-cover shadow-lg"
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
                   </div>
@@ -91,6 +92,7 @@ export default function Home() {
                       alt="Roark Short Sleeve Button-Up"
                       src="/images/roark_shirt.png"
                       className="aspect-[2/3] w-full rounded-xl bg-neutral-light object-cover shadow-lg"
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
                   </div>
@@ -101,6 +103,7 @@ export default function Home() {
                       alt=""
                       src="/images/roark_pant.png"
                       className="aspect-[2/3] w-full rounded-xl bg-neutral-light object-cover shadow-lg"
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
                   </div>
@@ -113,6 +116,7 @@ export default function Home() {
                       alt="Roark T-shirt"
                       src="/images/pass_shorts.png"
                       className="aspect-[2/3] w-full rounded-xl bg-neutral-light object-cover shadow-lg"
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
                   </div>
@@ -123,6 +127,7 @@ export default function Home() {
                       alt=""
                       src="/images/roark_hat.png"
                       className="aspect-[2/3] w-full rounded-xl bg-neutral-light object-cover shadow-lg"
+                      loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
                   </div>

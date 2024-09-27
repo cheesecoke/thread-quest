@@ -8,22 +8,22 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.roark.com",
-      },
-      {
-        protocol: "https",
-        hostname: "us.passenger.com",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.shopify.com",
+        hostname: "threadquest.twic.pics",
       },
     ],
+  },
+  webpack: (config, { isServer }) => {
+    // Prevent 'scrapers/' and 'dummy-data/' from being bundled
+    if (!isServer) {
+      config.resolve.alias["scrapers"] = false;
+      config.resolve.alias["dummy-data"] = false;
+    }
+    return config;
   },
 };
 

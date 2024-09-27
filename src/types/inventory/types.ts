@@ -14,6 +14,16 @@ export type SelectedItemsTypes = {
   [key in SelectedItemsCategoriesTypes]?: ClothingItemTypes | undefined;
 };
 
+export interface TabTypes {
+  name: string;
+}
+
+export interface InventoryNavTypes {
+  selectedTab: string;
+  setSelectedTab: (tab: string) => void;
+  tabs: TabTypes[];
+}
+
 // InventoryTab Component Types
 export interface InventoryTabPropsTypes {
   categorizedItems: CategorizedItemsTypes;
@@ -34,13 +44,32 @@ export interface OutfitTabPropsTypes {
   onDelete: (category: string) => void;
 }
 
-export interface CatSectionPropsTypes {
+export interface OutfitSectionPropsTypes {
   category: string;
   item: { name: string; imageUrl: string; link?: string };
   setSelectedTab: (tab: string) => void;
   onDelete: (category: string) => void;
   setSelectedOutfitId: (id: number | null) => void;
   comingSoon?: boolean;
+}
+
+export interface OutfitTypes {
+  id: number;
+  name: string;
+  status: StatusType;
+  dueDate: string;
+  dueDateTime: string;
+  items: CategorizedItemsTypes;
+}
+
+export interface SavedItemMenuPropsTypes {
+  editOutfit: number | null;
+  saveEditedName: (id: number) => void;
+  handlePurchaseStatus: (id: number) => void;
+  handleViewOutfit: (items: { [key: string]: any }, id: number) => void;
+  handleEditOutfit: (id: number, name: string) => void;
+  handleDeleteOutfit: (id: number) => void;
+  outfit: OutfitTypes;
 }
 
 // SavedOutfits Component Types

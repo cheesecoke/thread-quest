@@ -1,5 +1,12 @@
 import { ClothingItemTypes } from "../global/types";
 
+// Filter Types
+export interface FilterTypes {
+  tags: string[];
+  companies: string[];
+  prices: string | null;
+}
+
 // Sidebar Component Types
 export type SidebarPropsTypes = {
   onTagsChange: (filter: string, checked: boolean) => void;

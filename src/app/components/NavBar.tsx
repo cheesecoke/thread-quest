@@ -28,7 +28,7 @@ const NavBar: React.FC = () => {
             width={65}
             height={65}
             className="hidden sm:flex"
-            priority
+            loading="lazy"
           />
           <Link
             href="/"
