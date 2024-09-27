@@ -25,7 +25,7 @@ const navigation = {
     { name: "Men's Clothing", href: "/clothing" },
     { name: "Inventory", href: "#" },
     { name: "About", href: "/about" },
-    { name: "Policy", href: "#" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Partners", href: "#" },
   ],
   social: [
