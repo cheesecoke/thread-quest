@@ -4,7 +4,7 @@ export const content = {
   hero: {
     title: "Curated Fashion from our Favorite Brands",
     subtitle:
-      "ThreadQuest is a curated online clothing store offering a unique shopping experience for fashion. Discover and save high-quality clothing items from carefully curated brands, organized by where they are worn on the body. Explore stylish outfits and elevate your wardrobe with a simple, sleek interface. Start your fashion exploration today with ThreadQuest!",
+      "ThreadQuest is a curated online clothing store offering a unique shopping experience...",
   },
   seo: {
     clothing: {
@@ -17,9 +17,14 @@ export const content = {
       description:
         "Browse and create outfits from your inventory of clothing items.",
     },
+    home: {
+      title: "Home - ThreadQuest",
+      description: "Welcome to ThreadQuest, your curated clothing destination.",
+    },
   },
 };
 
+// Could eventually be created from the DB
 export const categories = [
   {
     id: "company",

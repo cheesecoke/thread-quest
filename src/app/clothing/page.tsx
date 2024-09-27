@@ -1,7 +1,7 @@
-// app/clothing/page.tsx
-
+import { generateMetadata } from "../components/SEO";
 import ClothingClient from "@/app/clothing/components/ClothingClient";
 
+export const metadata = generateMetadata({ page: "clothing" });
 export const dynamic = "force-dynamic"; // To ensure server-rendering happens
 export const fetchCache = "force-no-store"; // Disable caching for dynamic content
 
