@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
       <p className="mb-4 text-primary">
         At ThreadQuest, accessible from{" "}
         <a href="https://yourdomain.com" className="text-accent underline">
-          https://yourdomain.com
+          https://www.thread-quest.com
         </a>
         , one of our main priorities is the privacy of our visitors. This
         Privacy Policy document contains types of information that is collected
@@ -76,7 +76,7 @@ const PrivacyPolicy = () => {
           href="mailto:support@yourdomain.com"
           className="text-accent underline"
         >
-          support@yourdomain.com
+          threadquestfashion@gmail.com
         </a>
         .
       </p>

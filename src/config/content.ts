@@ -4,7 +4,7 @@ export const content = {
   hero: {
     title: "Curated Fashion from our Favorite Brands",
     subtitle:
-      "ThreadQuest is a curated online clothing store offering a unique shopping experience...",
+      "ThreadQuest is a curated online clothing store offering a unique fashion experience. Discover and save high-quality clothing from top brands, organized by where they are worn. Explore stylish outfits and elevate your wardrobe with our sleek interface. Start your fashion journey today with ThreadQuest!",
   },
   seo: {
     clothing: {

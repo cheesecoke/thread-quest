@@ -23,22 +23,8 @@ const navigation = {
   main: [
     { name: "Home", href: "/" },
     { name: "Men's Clothing", href: "/clothing" },
-    { name: "Inventory", href: "#" },
-    { name: "About", href: "/about" },
+    { name: "Inventory", href: "/inventory" },
     { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Partners", href: "#" },
-  ],
-  social: [
-    {
-      name: "Instagram",
-      href: "#",
-      icon: InstagramIcon,
-    },
-    {
-      name: "GitHub",
-      href: "#",
-      icon: GitHubIcon,
-    },
   ],
 };
 
@@ -61,18 +47,6 @@ export default function Footer() {
             </div>
           ))}
         </nav>
-        <div className="mt-10 flex justify-center space-x-10">
-          {navigation.social.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-text-white hover:text-primary"
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon aria-hidden="true" className="h-6 w-6" />
-            </a>
-          ))}
-        </div>
         <p className="mt-10 text-center text-xs font-body text-text-white">
           &copy; {new Date().getFullYear()} Thread-Quest, Inc. All rights
           reserved.
