@@ -17,6 +17,11 @@ const NavBar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const activeLink = navLinks.find((link) => link.href === pathname);
+  const viewingAlt = pathname
+    .replace(/^\/|-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+  console.log(pathname);
 
   return (
     <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid px-6 h-16">
@@ -49,7 +54,7 @@ const NavBar: React.FC = () => {
           <div className="text-neutral-mid text-sm md:text-md mr-4 transition duration-300 ease-in-out">
             Viewing{" "}
             <span className="text-secondary-dark">
-              <i>{activeLink?.name}</i>
+              <i>{activeLink?.name ? activeLink?.name : viewingAlt}</i>
             </span>
           </div>
           <Menu as="div" className="relative inline-block text-left">
