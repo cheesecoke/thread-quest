@@ -1,130 +1,11 @@
 import { useState, useEffect } from "react";
-import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from "@/app/components/Button";
 import SavedOutfitsList from "./SavedOutfitsList";
-import type {
-  CatSectionPropsTypes,
-  OutfitTabPropsTypes,
-} from "@/types/inventory/types";
+import type { OutfitTabPropsTypes } from "@/types/inventory/types";
+import { isOutfitDuplicate } from "../utils/isOutfitDuplicate";
+import dynamic from "next/dynamic";
 
-const CatSection = ({
-  category,
-  item,
-  setSelectedTab,
-  onDelete,
-  setSelectedOutfitId,
-  comingSoon,
-}: CatSectionPropsTypes) => {
-  const hasImage = item?.imageUrl;
-
-  return (
-    <div className="flex flex-col items-center justify-center relative">
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold">{category}</h3>
-      </div>
-
-      <div
-        className={`relative w-32 h-32 rounded-xl object-cover shadow-lg group ${
-          hasImage && "cursor-pointer"
-        }`}
-        onClick={() => {
-          onDelete(category);
-          setSelectedOutfitId(null);
-        }}
-      >
-        {hasImage ? (
-          <img
-            src={item.imageUrl}
-            alt={item.name}
-            className="w-full h-full object-cover rounded-lg"
-          />
-        ) : (
-          <div className="w-full h-full bg-neutral-light rounded-lg flex items-center justify-center text-neutral-mid">
-            <NoSymbolIcon className="w-8 h-8" />
-          </div>
-        )}
-
-        <div
-          className={`absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid ${
-            hasImage
-              ? "group-hover:ring-accent transition ease-in-out duration-200"
-              : ""
-          } `}
-        />
-        {hasImage && (
-          <XCircleIcon
-            fill="white"
-            className="absolute -top-3 -right-3 w-8 h-8 text-neutral-mid group-hover:text-accent transition ease-in-out duration-200"
-          />
-        )}
-      </div>
-      {comingSoon && (
-        <>
-          <br /> <span className="text-sm h-11">Coming Soon</span>
-        </>
-      )}
-      {!comingSoon &&
-        (hasImage ? (
-          <Button
-            href={item.link}
-            variant="outlined"
-            type="secondary"
-            className="mt-4"
-            size="md"
-            externalLink
-          >
-            Buy Item
-          </Button>
-        ) : (
-          <Button
-            variant="outlined"
-            type="primary"
-            className="mt-4"
-            size="md"
-            onClick={() => setSelectedTab("Inventory")}
-          >
-            Pick
-          </Button>
-        ))}
-    </div>
-  );
-};
-
-const isOutfitDuplicate = (
-  newOutfitItems: Record<string, { name: string; imageUrl: string }>,
-  savedOutfits: Array<{
-    id: number;
-    items: Record<string, { name: string; imageUrl: string }>;
-  }>,
-  setSelectedOutfitId: (id: number | null) => void
-) => {
-  return savedOutfits.some((savedOutfit) => {
-    const newOutfitCategories = Object.keys(newOutfitItems);
-    const savedOutfitCategories = Object.keys(savedOutfit.items);
-
-    // Ensure the number of categories is the same
-    if (newOutfitCategories.length !== savedOutfitCategories.length) {
-      return false;
-    }
-
-    // Check if all items match exactly
-    return newOutfitCategories.every((category) => {
-      const newItem = newOutfitItems[category];
-      const savedItem = savedOutfit.items[category];
-
-      // If the outfit is a duplicate, set the selected outfit ID to the saved outfit
-      setSelectedOutfitId(savedOutfit.id);
-
-      // Ensure that the category exists in both outfits and the items match
-      return (
-        newItem &&
-        savedItem &&
-        newItem.name === savedItem.name &&
-        newItem.imageUrl === savedItem.imageUrl
-      );
-    });
-  });
-};
+const OutfitSection = dynamic(() => import("./OutfitSection"));
 
 const OutfitTab = ({
   selectedItems,
@@ -187,7 +68,7 @@ const OutfitTab = ({
       <div className="relative col-span-1 max-w-lg">
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -199,7 +80,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -208,7 +89,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -220,7 +101,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -229,7 +110,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -241,7 +122,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -251,7 +132,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <CatSection
+            <OutfitSection
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
