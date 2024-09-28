@@ -5,10 +5,7 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 const isAnalyzeEnabled = process.env.ANALYZE === "true";
 
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  reactStrictMode: false,
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
