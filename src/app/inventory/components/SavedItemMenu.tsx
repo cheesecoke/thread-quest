@@ -21,7 +21,6 @@ export default function SavedItemMenu({
             variant="outlined"
             size="sm"
             onClick={() => handlePurchaseStatus(outfit.id)}
-            className="block px-3 py-1 text-sm leading-6 text-primary hover:bg-neutral-mid"
           >
             Status<span className="sr-only">, {outfit.name}</span>
           </Button>
