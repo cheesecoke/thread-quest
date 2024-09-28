@@ -1,7 +1,6 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "public": "public",
   "builds": [
     {
       "src": "src/app/**/*",
