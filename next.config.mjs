@@ -6,25 +6,27 @@ const isAnalyzeEnabled = process.env.ANALYZE === "true";
 
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    API_URL:
+      process.env.API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "http://localhost:3000",
+  },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.patagonia.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.madetrade.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.outerknown.com",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.shopify.com",
+        hostname: "threadquest.twic.pics",
       },
     ],
+  },
+  webpack: (config, { isServer }) => {
+    // Prevent 'scrapers/' and 'dummy-data/' from being bundled
+    if (!isServer) {
+      config.resolve.alias["scrapers"] = false;
+      config.resolve.alias["dummy-data"] = false;
+    }
+    return config;
   },
 };
 

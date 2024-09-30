@@ -1,23 +1,10 @@
 {
   "version": 2,
-  "functions": {
-    "pages/api/items.ts": {
-      "maxDuration": 55,
-      "memory": 1024
-    },
-    "pages/api/[company].ts": {
-      "maxDuration": 55,
-      "memory": 1024
-    }
-  },
-  "rewrites": [
+  "framework": "nextjs",
+  "routes": [
     {
-      "source": "pages/clothing.json",
-      "destination": "pages/api/items"
-    },
-    {
-      "source": "pages/api/(.*)",
-      "destination": "pages/api/$1"
+      "src": "/(.*)",
+      "dest": "$1"
     }
   ]
 }

@@ -23,28 +23,14 @@ const navigation = {
   main: [
     { name: "Home", href: "/" },
     { name: "Men's Clothing", href: "/clothing" },
-    { name: "Inventory", href: "#" },
-    { name: "About", href: "/about" },
-    { name: "Policy", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
-  social: [
-    {
-      name: "Instagram",
-      href: "#",
-      icon: InstagramIcon,
-    },
-    {
-      name: "GitHub",
-      href: "#",
-      icon: GitHubIcon,
-    },
+    { name: "Inventory", href: "/inventory" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
   ],
 };
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-light">
+    <footer className="relative z-2 bg-neutral-light">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
         <nav
           aria-label="Footer"
@@ -54,26 +40,14 @@ export default function Footer() {
             <div key={item.name} className="pb-6">
               <a
                 href={item.href}
-                className="text-sm font-body text-text-secondary hover:text-primary"
+                className="text-sm font-body text-text-white hover:text-primary"
               >
                 {item.name}
               </a>
             </div>
           ))}
         </nav>
-        <div className="mt-10 flex justify-center space-x-10">
-          {navigation.social.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-text-secondary hover:text-primary"
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon aria-hidden="true" className="h-6 w-6" />
-            </a>
-          ))}
-        </div>
-        <p className="mt-10 text-center text-xs font-body text-text-secondary">
+        <p className="mt-10 text-center text-xs font-body text-text-white">
           &copy; {new Date().getFullYear()} Thread-Quest, Inc. All rights
           reserved.
         </p>
