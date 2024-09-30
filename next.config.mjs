@@ -6,6 +6,12 @@ const isAnalyzeEnabled = process.env.ANALYZE === "true";
 
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    API_URL:
+      process.env.API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "http://localhost:3000",
+  },
   images: {
     remotePatterns: [
       {
