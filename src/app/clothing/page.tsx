@@ -7,7 +7,11 @@ export const fetchCache = "force-no-store"; // Disable caching for dynamic conte
 
 // Server-side fetching for the initial items
 async function fetchInitialItems() {
-  const res = await fetch(`${process.env.API_URL}/api/clothing?page=1`);
+  const api =
+    process.env.API_URL ||
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ||
+    "http://localhost:3000";
+  const res = await fetch(`${api}/api/clothing?page=1`);
   if (!res.ok) {
     throw new Error("Failed to fetch items");
   }
