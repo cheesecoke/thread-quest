@@ -81,6 +81,7 @@ const CategorySection: React.FC<CategorySectionPropsTypes> = ({
               </div>
             </div>
             <Button
+              type="secondary"
               onClick={() => setSelectedTab("Outfit")}
               variant="outlined"
               size="md"
@@ -89,7 +90,8 @@ const CategorySection: React.FC<CategorySectionPropsTypes> = ({
               View Outfit
             </Button>
             <Button
-              href="/inventory"
+              type="accent"
+              href="/clothing"
               variant="outlined"
               size="md"
               className="inline-block"

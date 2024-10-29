@@ -21,8 +21,6 @@ const NavBar: React.FC = () => {
     .replace(/^\/|-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
-  console.log(pathname);
-
   return (
     <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid px-6 h-16">
       <div className="container mx-auto flex justify-between items-center max-w-2xl lg:max-w-7xl">
@@ -41,13 +39,15 @@ const NavBar: React.FC = () => {
           >
             Thread-Quest
           </Link>
-          <button
-            onClick={() => router.back()} // Trigger back navigation
-            className="flex sm:hidden items-center space-x-2 py-2 bg-transparent text-primary hover:text-secondary transition duration-150 ease-in-out"
-          >
-            <ArrowLeftIcon className="h-6 w-6" /> {/* Heroicon arrow */}
-            <span>Back</span> {/* Optional text */}
-          </button>
+          {pathname !== "/" && (
+            <button
+              onClick={() => router.back()}
+              className="flex sm:hidden items-center space-x-2 py-2 bg-transparent text-primary hover:text-secondary transition duration-150 ease-in-out"
+            >
+              <ArrowLeftIcon className="h-6 w-6" />
+              <span>Back</span>
+            </button>
+          )}
         </div>
 
         <div className="relative flex justify-between items-center space-x-2">
