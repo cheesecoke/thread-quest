@@ -15,7 +15,7 @@ const Button = ({
 }: {
   children: React.ReactNode;
   variant?: "flat" | "outlined";
-  type?: "primary" | "secondary" | "accent"; // Add "accent" as an option
+  type?: "primary" | "secondary" | "accent";
   size?: "sm" | "md" | "lg";
   soft?: boolean;
   disabled?: boolean;
