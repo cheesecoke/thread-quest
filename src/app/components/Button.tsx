@@ -15,7 +15,7 @@ const Button = ({
 }: {
   children: React.ReactNode;
   variant?: "flat" | "outlined";
-  type?: "primary" | "secondary";
+  type?: "primary" | "secondary" | "accent";
   size?: "sm" | "md" | "lg";
   soft?: boolean;
   disabled?: boolean;
@@ -48,6 +48,12 @@ const Button = ({
     ? "bg-secondary text-text-secondary hover:bg-secondary-light"
     : "bg-secondary text-text-secondary-light hover:bg-secondary-dark";
 
+  const flatAccent = disabled
+    ? "bg-accent-light text-text-secondary opacity-50 cursor-not-allowed"
+    : soft
+    ? "bg-accent-light text-text-secondary hover:bg-accent"
+    : "bg-accent text-white hover:bg-accent-dark";
+
   const outlinedPrimary = disabled
     ? "border-2 border-primary-light text-primary-light opacity-50 cursor-not-allowed"
     : soft
@@ -60,15 +66,25 @@ const Button = ({
     ? "border-2 border-secondary-soft text-secondary hover:border-secondary-light"
     : "border-2 border-secondary-dark text-secondary-dark hover:bg-secondary-dark hover:text-white";
 
-  // Determine the styles for flat or outlined based on primary or secondary
+  const outlinedAccent = disabled
+    ? "border-2 border-accent-light text-accent-light opacity-50 cursor-not-allowed"
+    : soft
+    ? "border-2 border-accent-soft text-accent hover:border-accent-light"
+    : "border-2 border-accent text-accent hover:bg-accent hover:text-white";
+
+  // Determine the styles for flat or outlined based on button type
   const buttonStyles =
     variant === "flat"
       ? type === "primary"
         ? flatPrimary
-        : flatSecondary
+        : type === "secondary"
+        ? flatSecondary
+        : flatAccent
       : type === "primary"
       ? outlinedPrimary
-      : outlinedSecondary;
+      : type === "secondary"
+      ? outlinedSecondary
+      : outlinedAccent;
 
   const combinedClassName = `${baseStyles} ${
     sizeStyles[size]
