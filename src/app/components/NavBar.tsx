@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,21 +8,23 @@ import { usePathname } from "next/navigation";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, ArrowLeftIcon } from "@heroicons/react/20/solid";
 
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Men's Clothing", href: "/clothing" },
-  { name: "Inventory", href: "/inventory" },
-];
-
 const NavBar: React.FC = () => {
   const router = useRouter();
+  const { data: session } = useSession();
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Men's Clothing", href: "/clothing" },
+    session && { name: "Inventory", href: "/inventory" },
+  ].filter(Boolean);
+
   const pathname = usePathname();
-  const activeLink = navLinks.find((link) => link.href === pathname);
+  const activeLink = navLinks.find(
+    (link): link is { name: string; href: string } =>
+      link !== null && link.href === pathname
+  );
   const viewingAlt = pathname
     .replace(/^\/|-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
-
-  console.log(pathname);
 
   return (
     <nav className="bg-white fixed top-0 w-full z-50 flex justify-around border-b border-neutral-mid px-6 h-16">
@@ -33,7 +36,7 @@ const NavBar: React.FC = () => {
             width={65}
             height={65}
             className="hidden sm:flex"
-            loading="lazy"
+            priority
           />
           <Link
             href="/"
@@ -70,16 +73,39 @@ const NavBar: React.FC = () => {
               className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-primary ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
             >
               <div className="py-1">
-                {navLinks.map((link) => (
-                  <MenuItem key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                {navLinks.map(
+                  (link) =>
+                    link && (
+                      <MenuItem key={link.name}>
+                        <Link
+                          href={link.href}
+                          className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                          {link.name}
+                        </Link>
+                      </MenuItem>
+                    )
+                )}
+
+                {!session ? (
+                  <MenuItem>
+                    <button
+                      onClick={() => signIn("google")}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                     >
-                      {link.name}
-                    </Link>
+                      Sign In
+                    </button>
                   </MenuItem>
-                ))}
+                ) : (
+                  <MenuItem>
+                    <button
+                      onClick={() => signOut()}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                    >
+                      Sign Out
+                    </button>
+                  </MenuItem>
+                )}
               </div>
             </MenuItems>
           </Menu>

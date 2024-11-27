@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let isConnected = false; // Track the connection
+let isConnected = false;
 
 export const connectToDatabase = async () => {
   if (isConnected) {

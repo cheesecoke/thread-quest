@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-
-import Link from "next/link";
+import React, { useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
 import type {
@@ -10,6 +9,7 @@ import type {
 } from "@/types/inventory/types";
 import { ClothingItemTypes } from "@/types/global/types";
 import dynamic from "next/dynamic";
+import Button from "@/app/components/Button";
 
 const OutfitTab = dynamic(() => import("./OutfitTab"));
 const InventoryTab = dynamic(() => import("./InventoryTab"));
@@ -25,6 +25,7 @@ export default function InventoryClient() {
   const { savedItems } = useSavedItems();
   const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState<SelectedItemsTypes>({});
+  const { data: session } = useSession();
 
   const categorizedItems = categorizeSavedItems(savedItems);
 
@@ -56,37 +57,51 @@ export default function InventoryClient() {
 
   return (
     <div className="mt-2">
-      <MobileDropdown
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        tabs={tabs}
-      />
+      {session ? (
+        <>
+          <MobileDropdown
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            tabs={tabs}
+          />
 
-      <DeskTopInvNav
-        tabs={tabs}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-      />
-
-      {/* Content rendering based on selected tab */}
-      <div className="mt-6">
-        {selectedTab === "Inventory" && (
-          <InventoryTab
-            categorizedItems={categorizedItems}
-            selectedItems={selectedItems}
-            onSelectItem={handleSelectItem}
+          <DeskTopInvNav
+            tabs={tabs}
+            selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
           />
-        )}
-        {selectedTab === "Outfit" && (
-          <OutfitTab
-            setSelectedTab={setSelectedTab}
-            selectedItems={selectedItems}
-            setSelectedItems={setSelectedItems}
-            onDelete={onDelete}
-          />
-        )}
-      </div>
+
+          {/* Content rendering based on selected tab */}
+          <div className="mt-6">
+            {selectedTab === "Inventory" && (
+              <InventoryTab
+                categorizedItems={categorizedItems}
+                selectedItems={selectedItems}
+                onSelectItem={handleSelectItem}
+                setSelectedTab={setSelectedTab}
+              />
+            )}
+            {selectedTab === "Outfit" && (
+              <OutfitTab
+                setSelectedTab={setSelectedTab}
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                onDelete={onDelete}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col space-y-4 items-center justify-center h-dvh">
+          <p className="text-lg text-gray-500">
+            Please sign in to view your inventory
+          </p>
+
+          <Button className="ml-4" onClick={() => signIn()}>
+            Sign in
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

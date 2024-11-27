@@ -7,6 +7,7 @@ import React, {
   useRef,
   Suspense,
 } from "react";
+import { useSession } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ItemList from "@/app/clothing/components/ItemList";
 import Sidebar from "@/app/clothing/components/Sidebar";

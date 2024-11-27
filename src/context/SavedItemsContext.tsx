@@ -8,7 +8,6 @@ const SavedItemsContext = createContext<SavedItemsContextType | undefined>(
   undefined
 );
 
-// Use the custom hook
 export const useSavedItems = () => {
   const context = useContext(SavedItemsContext);
   if (!context) {
