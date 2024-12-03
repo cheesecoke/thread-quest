@@ -13,7 +13,6 @@ const ItemList: React.FC<ItemListPropsTypes> = ({
   loading,
 }) => {
   const { savedItems, toggleSaveItem, isAuthenticated } = useSavedItems();
-  console.log("savedItems:: ItemsList", savedItems);
 
   if (!loading && items.length === 0) {
     return <NoItems clearFilters={clearFilters} />;

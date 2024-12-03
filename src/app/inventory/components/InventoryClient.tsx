@@ -23,7 +23,6 @@ const tabs = [
 
 export default function InventoryClient() {
   const { savedItems, isAuthenticated } = useSavedItems();
-  console.log("savedItems", savedItems);
   const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState<SelectedItemsTypes>({});
 

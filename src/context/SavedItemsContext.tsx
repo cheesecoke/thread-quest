@@ -29,9 +29,6 @@ export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   ); // `null` indicates loading state
   const isAuthenticated = status === "authenticated";
 
-  console.log("session::Context", session);
-  console.log("savedItems::Context", savedItems);
-
   // Initialize `savedItems` when the session updates
   useEffect(() => {
     if (status === "loading" || savedItems !== null) return;
