@@ -31,7 +31,7 @@ export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Initialize `savedItems` when the session updates
   useEffect(() => {
-    if (status === "loading" || savedItems !== null) return;
+    if (status === "loading" || savedItems !== null || !isAuthenticated) return;
 
     if (session?.user?.savedItems) {
       setSavedItems(session.user.savedItems);
@@ -58,7 +58,7 @@ export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Function to toggle save state
   const toggleSaveItem = async (item: ClothingItemTypes) => {
-    if (!savedItems || !session?.user?.email) return;
+    if (!savedItems || !session?.user?.email || !isAuthenticated) return;
 
     const isAlreadySaved = savedItems.some((saved) => saved._id === item._id);
     const action = isAlreadySaved ? "remove" : "add";
