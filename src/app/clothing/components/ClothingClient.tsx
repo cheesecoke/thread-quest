@@ -191,7 +191,7 @@ export default function ClothingClient({
   };
 
   return (
-    <SavedItemsProvider>
+    <>
       <div className="lg:hidden">
         <Suspense fallback={<Spinner />}>
           <MobileFilters
@@ -260,6 +260,6 @@ export default function ClothingClient({
         </div>
         <ScrollToTopButton />
       </div>
-    </SavedItemsProvider>
+    </>
   );
 }

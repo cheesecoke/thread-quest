@@ -22,10 +22,10 @@ const tabs = [
 ];
 
 export default function InventoryClient() {
-  const { savedItems } = useSavedItems();
+  const { savedItems, isAuthenticated } = useSavedItems();
+  console.log("savedItems", savedItems);
   const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState<SelectedItemsTypes>({});
-  const { data: session } = useSession();
 
   const categorizedItems = categorizeSavedItems(savedItems);
 
@@ -57,7 +57,7 @@ export default function InventoryClient() {
 
   return (
     <div className="mt-2">
-      {session ? (
+      {isAuthenticated ? (
         <>
           <MobileDropdown
             selectedTab={selectedTab}

@@ -8,12 +8,12 @@ import { ClothingItemTypes } from "@/types/global/types";
 import { SelectedItemsCategoriesTypes } from "@/types/inventory/types";
 
 const CategorySection: React.FC<CategorySectionPropsTypes> = ({
-  categorizedItems,
+  categorizedItems = {},
   selectedItems,
   onSelectItem,
   setSelectedTab,
 }) => {
-  const hasItems = Object.keys(categorizedItems).length > 0;
+  const hasItems = Object.keys(categorizedItems || {}).length > 0;
 
   return (
     <div className="space-y-8">

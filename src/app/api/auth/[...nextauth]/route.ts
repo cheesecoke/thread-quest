@@ -21,6 +21,7 @@ const handler = NextAuth({
           name: user.name,
           email: user.email,
           image: user.image,
+          savedItems: [],
         });
       }
       return true;
@@ -28,7 +29,11 @@ const handler = NextAuth({
     async session({ session }: { session: any }) {
       const dbUser = await User.findOne({ email: session.user.email });
       if (dbUser) {
-        session.user.image = dbUser._id.toString();
+        session.user = {
+          ...session.user,
+          image: dbUser._id.toString(),
+          savedItems: dbUser.savedItems || [],
+        };
       }
       return session;
     },
