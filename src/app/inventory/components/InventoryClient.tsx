@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
 import type {

@@ -1,7 +1,6 @@
 // app/inventory/page.tsx (Server Component)
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import { generateMetadata } from "../components/SEO";
 
 export const metadata = generateMetadata({ page: "inventory" });
