@@ -7,7 +7,7 @@ export interface ClothingItemTypes {
   imageUrl: string;
   hoverImageUrl?: string;
   link: string;
-  tags?: string[];
+  tags: string[];
 }
 
 export interface IUser extends Document {
