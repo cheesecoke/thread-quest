@@ -5,9 +5,9 @@ export interface ClothingItemTypes {
   category: string;
   company: string;
   imageUrl: string;
-  hoverImageUrl: string;
+  hoverImageUrl?: string;
   link: string;
-  tags: string[];
+  tags?: string[];
 }
 
 export interface IUser extends Document {

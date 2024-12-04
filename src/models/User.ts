@@ -15,7 +15,7 @@ const UserSchema = new Schema<IUser>(
         category: { type: String, required: true },
         company: { type: String, required: true },
         imageUrl: { type: String, required: true },
-        hoverImageUrl: { type: String, required: true },
+        hoverImageUrl: { type: String },
         link: { type: String, required: true },
         tags: [{ type: String }],
       },
