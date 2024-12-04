@@ -7,13 +7,11 @@ import React, {
   useRef,
   Suspense,
 } from "react";
-import { useSession } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ItemList from "@/app/clothing/components/ItemList";
 import Sidebar from "@/app/clothing/components/Sidebar";
 import ScrollToTopButton from "@/app/clothing/components/ScrollToTopButton";
 import Spinner from "@/app/components/Spinner";
-import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import type { ClothingItemTypes } from "@/types/global/types";
 import type { FilterTypes } from "@/types/clothing/types";
 import dynamic from "next/dynamic";
@@ -191,7 +189,7 @@ export default function ClothingClient({
   };
 
   return (
-    <SavedItemsProvider>
+    <>
       <div className="lg:hidden">
         <Suspense fallback={<Spinner />}>
           <MobileFilters
@@ -260,6 +258,6 @@ export default function ClothingClient({
         </div>
         <ScrollToTopButton />
       </div>
-    </SavedItemsProvider>
+    </>
   );
 }

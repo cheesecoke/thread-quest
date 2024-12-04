@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import { categorizeSavedItems } from "@/app/utils/categorizeSavedItems";
 import type {
@@ -22,10 +22,9 @@ const tabs = [
 ];
 
 export default function InventoryClient() {
-  const { savedItems } = useSavedItems();
+  const { savedItems, isAuthenticated } = useSavedItems();
   const [selectedTab, setSelectedTab] = useState("Inventory");
   const [selectedItems, setSelectedItems] = useState<SelectedItemsTypes>({});
-  const { data: session } = useSession();
 
   const categorizedItems = categorizeSavedItems(savedItems);
 
@@ -57,7 +56,7 @@ export default function InventoryClient() {
 
   return (
     <div className="mt-2">
-      {session ? (
+      {isAuthenticated ? (
         <>
           <MobileDropdown
             selectedTab={selectedTab}

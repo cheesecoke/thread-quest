@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { InventoryNavTypes } from "@/types/inventory/types";
-import WarningDialog from "./WarningDialog";
 import Link from "next/link";
 
 export default function DeskTopInvNav({
@@ -27,14 +26,6 @@ export default function DeskTopInvNav({
             {tab.name}
           </button>
         ))}
-        <div className="flex items-center">
-          <InformationCircleIcon
-            onClick={() => setOpen(true)}
-            className="h-5 w-5 text-info cursor-pointer"
-          />
-
-          <WarningDialog open={open} setOpen={setOpen} />
-        </div>
       </nav>
       <Link
         href="/clothing"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import NextAuthSessionProvider from "../app/providers/SessionProvider";
+import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import { content } from "@/config/content";
 import { Lora, Poppins, Roboto } from "next/font/google";
 import "./styles/globals.css";
@@ -40,9 +41,11 @@ export default async function RootLayout({
         className={`${poppins.className} ${roboto.className} ${lora.className}`}
       >
         <NextAuthSessionProvider session={session}>
-          <NavBar />
-          <main>{children}</main>
-          <Footer />
+          <SavedItemsProvider>
+            <NavBar />
+            <main>{children}</main>
+            <Footer />
+          </SavedItemsProvider>
         </NextAuthSessionProvider>
       </body>
     </html>
