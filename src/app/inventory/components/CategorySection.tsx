@@ -87,7 +87,7 @@ const CategorySection: React.FC<CategorySectionPropsTypes> = ({
               View Outfit
             </Button>
             <Button
-              href="/inventory"
+              href="/clothing"
               variant="outlined"
               size="md"
               className="inline-block"

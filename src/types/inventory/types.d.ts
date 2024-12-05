@@ -49,45 +49,44 @@ export interface OutfitSectionPropsTypes {
   item: { name: string; imageUrl: string; link?: string };
   setSelectedTab: (tab: string) => void;
   onDelete: (category: string) => void;
-  setSelectedOutfitId: (id: number | null) => void;
+  setSelectedOutfitId: (id: string | null) => void;
   comingSoon?: boolean;
-}
-
-export interface OutfitTypes {
-  id: number;
-  name: string;
-  status: StatusType;
-  dueDate: string;
-  dueDateTime: string;
-  items: CategorizedItemsTypes;
-}
-
-export interface SavedItemMenuPropsTypes {
-  editOutfit: number | null;
-  saveEditedName: (id: number) => void;
-  handlePurchaseStatus: (id: number) => void;
-  handleViewOutfit: (items: { [key: string]: any }, id: number) => void;
-  handleEditOutfit: (id: number, name: string) => void;
-  handleDeleteOutfit: (id: number) => void;
-  outfit: OutfitTypes;
 }
 
 // SavedOutfits Component Types
 export type StatusType = "Purchased" | "In progress";
 
 export interface OutfitItemTypes {
-  id: number;
+  dueDate?: string;
+  dueDateTime?: string;
+  id: string;
   name: string;
-  href: string;
+  items: {
+    Hats?: ClothingItemTypes;
+    Tops?: ClothingItemTypes;
+    Outerwear?: ClothingItemTypes;
+    Bottoms?: ClothingItemTypes;
+    Belts?: ClothingItemTypes;
+    Shoes?: ClothingItemTypes;
+    Socks?: ClothingItemTypes;
+  };
   status: StatusType;
-  dueDate: string;
-  dueDateTime: string;
-  items: { [key: string]: any };
 }
 
 export interface SavedOutfitsListPropsTypes {
   savedOutfits: OutfitItemTypes[];
   setSavedOutfits: (value: OutfitItemTypes[]) => void;
-  selectedOutfitId: number | null;
-  handleViewOutfit: (items: { [key: string]: any }, id: number) => void;
+  selectedOutfitId: string | null;
+  handleViewOutfit: (items: { [key: string]: any }, id: string) => void;
+  userEmail: string | null;
+}
+
+export interface SavedItemMenuPropsTypes {
+  editOutfit: string | null;
+  saveEditedName: (id: string) => void;
+  handlePurchaseStatus: (id: string) => void;
+  handleViewOutfit: (items: { [key: string]: any }, id: string) => void;
+  handleEditOutfit: (id: string, name: string) => void;
+  handleDeleteOutfit: (id: string) => void;
+  outfit: OutfitItemTypes;
 }

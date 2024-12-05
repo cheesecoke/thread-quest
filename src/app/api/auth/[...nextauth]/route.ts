@@ -22,6 +22,7 @@ const handler = NextAuth({
           email: user.email,
           image: user.image,
           savedItems: [],
+          savedOutfits: [],
         });
       }
       return true;
@@ -33,6 +34,7 @@ const handler = NextAuth({
           ...session.user,
           image: dbUser._id.toString(),
           savedItems: dbUser.savedItems || [],
+          savedOutfits: dbUser.savedOutfits || [],
         };
       }
       return session;

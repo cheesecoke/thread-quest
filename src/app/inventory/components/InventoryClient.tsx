@@ -38,7 +38,6 @@ export default function InventoryClient() {
         return updatedSelectedItems;
       }
 
-      // Otherwise, select the clicked item
       return {
         ...prevSelectedItems,
         [category]: item,
@@ -70,7 +69,6 @@ export default function InventoryClient() {
             setSelectedTab={setSelectedTab}
           />
 
-          {/* Content rendering based on selected tab */}
           <div className="mt-6">
             {selectedTab === "Inventory" && (
               <InventoryTab
