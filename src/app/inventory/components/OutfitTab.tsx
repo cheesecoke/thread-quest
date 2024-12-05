@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import Button from "@/app/components/Button";
 import SavedOutfitsList from "./SavedOutfitsList";
 import type { OutfitTabPropsTypes } from "@/types/inventory/types";
 import { isOutfitDuplicate } from "../utils/isOutfitDuplicate";
 import dynamic from "next/dynamic";
+import { v4 as uuidv4 } from "uuid";
 
-const OutfitSection = dynamic(() => import("./OutfitSection"));
+const OutfitCard = dynamic(() => import("./OutfitCard"));
 
 const OutfitTab = ({
   selectedItems,
@@ -14,24 +16,44 @@ const OutfitTab = ({
   onDelete,
 }: OutfitTabPropsTypes) => {
   const [savedOutfits, setSavedOutfits] = useState<any[]>([]);
-  const [selectedOutfitId, setSelectedOutfitId] = useState<number | null>(null); // State to track the currently selected outfit
+  const [selectedOutfitId, setSelectedOutfitId] = useState<string | null>(null);
+  const { data: session } = useSession();
 
-  // Load saved outfits from local storage
   useEffect(() => {
-    const outfitsFromStorage = JSON.parse(
-      localStorage.getItem("savedOutfits") || "[]"
-    );
-    setSavedOutfits(outfitsFromStorage);
-  }, []);
+    const fetchSavedOutfits = async () => {
+      try {
+        if (!session?.user?.email) return;
+
+        const res = await fetch(
+          `/api/saved-outfits?email=${session.user.email}`
+        );
+        if (res.ok) {
+          const { savedOutfits } = await res.json();
+          setSavedOutfits(savedOutfits);
+        }
+      } catch (error) {
+        console.error("Failed to fetch saved outfits:", error);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchSavedOutfits();
+    }
+  }, [session]);
 
   const saveOutfit = () => {
+    if (!Array.isArray(savedOutfits)) {
+      console.error("Saved outfits is not initialized as an array.");
+      return;
+    }
+
     if (isOutfitDuplicate(selectedItems, savedOutfits, setSelectedOutfitId)) {
       alert("Outfit already exists in saved outfits.");
       return;
     }
 
     const newOutfit = {
-      id: savedOutfits.length + 1,
+      id: uuidv4(),
       name: `Outfit ${savedOutfits.length + 1}`,
       status: "In Progress",
       dueDate: new Date().toLocaleDateString(),
@@ -41,34 +63,35 @@ const OutfitTab = ({
 
     const updatedOutfits = [...savedOutfits, newOutfit];
     setSavedOutfits(updatedOutfits);
-    localStorage.setItem("savedOutfits", JSON.stringify(updatedOutfits));
+
+    try {
+      fetch("/api/saved-outfits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          outfit: newOutfit,
+        }),
+      });
+      setSelectedOutfitId(newOutfit.id);
+    } catch (error) {
+      console.error("Failed to save outfit:", error);
+    }
   };
 
-  const handleViewOutfit = (items: Record<string, any>, id: number) => {
+  const handleViewOutfit = (items: Record<string, any>, id: string) => {
     setSelectedOutfitId(id);
     setSelectedItems(items);
   };
 
-  // Default structure for outfit categories
-  const defaultOutfit = {
-    Hats: { name: "No Hat", imageUrl: "" },
-    Tops: { name: "No Top", imageUrl: "" },
-    Outerwear: { name: "No Outerwear", imageUrl: "" },
-    Bottoms: { name: "No Bottoms", imageUrl: "" },
-    Belts: { name: "No Belt", imageUrl: "" },
-    Shoes: { name: "No Shoes", imageUrl: "" },
-    Socks: { name: "No Socks", imageUrl: "" },
-  };
-
-  // Merge selected items with the default structure
-  const outfit = { ...defaultOutfit, ...selectedItems };
+  const outfit = selectedItems;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
       <div className="relative col-span-1 max-w-lg">
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -80,7 +103,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -89,7 +112,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -101,7 +124,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -110,7 +133,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -122,7 +145,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -132,7 +155,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -163,6 +186,7 @@ const OutfitTab = ({
             setSavedOutfits={setSavedOutfits}
             selectedOutfitId={selectedOutfitId}
             handleViewOutfit={handleViewOutfit}
+            userEmail={session?.user?.email ?? null}
           />
           <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-neutral-mid" />
         </div>

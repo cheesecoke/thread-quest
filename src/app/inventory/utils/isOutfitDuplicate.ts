@@ -1,11 +1,15 @@
 export const isOutfitDuplicate = (
   newOutfitItems: Record<string, { name: string; imageUrl: string }>,
   savedOutfits: Array<{
-    id: number;
+    id: string;
     items: Record<string, { name: string; imageUrl: string }>;
   }>,
-  setSelectedOutfitId: (id: number | null) => void
+  setSelectedOutfitId: (id: string | null) => void
 ) => {
+  if (!savedOutfits || savedOutfits.length === 0) {
+    return false;
+  }
+
   return savedOutfits.some((savedOutfit) => {
     const newOutfitCategories = Object.keys(newOutfitItems);
     const savedOutfitCategories = Object.keys(savedOutfit.items);

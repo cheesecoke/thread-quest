@@ -38,7 +38,6 @@ export default function InventoryClient() {
         return updatedSelectedItems;
       }
 
-      // Otherwise, select the clicked item
       return {
         ...prevSelectedItems,
         [category]: item,
@@ -53,6 +52,9 @@ export default function InventoryClient() {
       return updatedSelectedItems;
     });
   };
+
+  // console.log("InventoryClient -> categorizedItems", categorizedItems);
+  // console.log("InventoryClient -> selectedItems", selectedItems);
 
   return (
     <div className="mt-2">
@@ -70,14 +72,13 @@ export default function InventoryClient() {
             setSelectedTab={setSelectedTab}
           />
 
-          {/* Content rendering based on selected tab */}
           <div className="mt-6">
             {selectedTab === "Inventory" && (
               <InventoryTab
-                categorizedItems={categorizedItems}
-                selectedItems={selectedItems}
-                onSelectItem={handleSelectItem}
                 setSelectedTab={setSelectedTab}
+                selectedItems={selectedItems}
+                categorizedItems={categorizedItems}
+                onSelectItem={handleSelectItem}
               />
             )}
             {selectedTab === "Outfit" && (

@@ -1,5 +1,7 @@
+import { OutfitItemTypes } from "../inventory/types";
+
 export interface ClothingItemTypes {
-  _id: string; // Item ID
+  _id: string;
   name: string;
   price: number;
   category: string;
@@ -15,4 +17,5 @@ export interface IUser extends Document {
   email: string;
   image?: string;
   savedItems?: ClothingItemTypes[];
+  savedOutfits?: OutfitItemTypes[];
 }
