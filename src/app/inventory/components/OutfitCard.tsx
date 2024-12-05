@@ -1,15 +1,15 @@
 import Button from "@/app/components/Button";
 import { XCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
-import type { OutfitSectionPropsTypes } from "@/types/inventory/types";
+import type { OutfitCardPropsTypes } from "@/types/inventory/types";
 
-const OutfitSection = ({
+const OutfitCard = ({
   category,
   item,
   setSelectedTab,
   onDelete,
   setSelectedOutfitId,
   comingSoon,
-}: OutfitSectionPropsTypes) => {
+}: OutfitCardPropsTypes) => {
   const hasImage = item?.imageUrl;
 
   return (
@@ -85,4 +85,4 @@ const OutfitSection = ({
   );
 };
 
-export default OutfitSection;
+export default OutfitCard;

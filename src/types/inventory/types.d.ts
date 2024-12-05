@@ -44,7 +44,7 @@ export interface OutfitTabPropsTypes {
   onDelete: (category: string) => void;
 }
 
-export interface OutfitSectionPropsTypes {
+export interface OutfitCardPropsTypes {
   category: string;
   item: { name: string; imageUrl: string; link?: string };
   setSelectedTab: (tab: string) => void;

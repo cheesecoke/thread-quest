@@ -53,6 +53,9 @@ export default function InventoryClient() {
     });
   };
 
+  // console.log("InventoryClient -> categorizedItems", categorizedItems);
+  // console.log("InventoryClient -> selectedItems", selectedItems);
+
   return (
     <div className="mt-2">
       {isAuthenticated ? (
@@ -72,10 +75,10 @@ export default function InventoryClient() {
           <div className="mt-6">
             {selectedTab === "Inventory" && (
               <InventoryTab
-                categorizedItems={categorizedItems}
-                selectedItems={selectedItems}
-                onSelectItem={handleSelectItem}
                 setSelectedTab={setSelectedTab}
+                selectedItems={selectedItems}
+                categorizedItems={categorizedItems}
+                onSelectItem={handleSelectItem}
               />
             )}
             {selectedTab === "Outfit" && (

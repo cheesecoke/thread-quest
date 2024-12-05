@@ -7,7 +7,7 @@ import { isOutfitDuplicate } from "../utils/isOutfitDuplicate";
 import dynamic from "next/dynamic";
 import { v4 as uuidv4 } from "uuid";
 
-const OutfitSection = dynamic(() => import("./OutfitSection"));
+const OutfitCard = dynamic(() => import("./OutfitCard"));
 
 const OutfitTab = ({
   selectedItems,
@@ -84,26 +84,14 @@ const OutfitTab = ({
     setSelectedItems(items);
   };
 
-  // Default structure for outfit categories
-  const defaultOutfit = {
-    Hats: { name: "No Hat", imageUrl: "" },
-    Tops: { name: "No Top", imageUrl: "" },
-    Outerwear: { name: "No Outerwear", imageUrl: "" },
-    Bottoms: { name: "No Bottoms", imageUrl: "" },
-    Belts: { name: "No Belt", imageUrl: "" },
-    Shoes: { name: "No Shoes", imageUrl: "" },
-    Socks: { name: "No Socks", imageUrl: "" },
-  };
-
-  // Merge selected items with the default structure
-  const outfit = { ...defaultOutfit, ...selectedItems };
+  const outfit = selectedItems;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
       <div className="relative col-span-1 max-w-lg">
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -115,7 +103,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -124,7 +112,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -136,7 +124,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -145,7 +133,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -157,7 +145,7 @@ const OutfitTab = ({
 
         <div className="relative grid grid-cols-2 gap-4 p-6">
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
@@ -167,7 +155,7 @@ const OutfitTab = ({
             />
           </div>
           <div className="col-span-1 row-span-1 flex items-center justify-center">
-            <OutfitSection
+            <OutfitCard
               onDelete={onDelete}
               setSelectedOutfitId={setSelectedOutfitId}
               setSelectedTab={setSelectedTab}
