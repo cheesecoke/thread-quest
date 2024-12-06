@@ -8,12 +8,12 @@ import { ClothingItemTypes } from "@/types/global/types";
 import { SelectedItemsCategoriesTypes } from "@/types/inventory/types";
 
 const CategorySection: React.FC<CategorySectionPropsTypes> = ({
-  categorizedItems,
+  categorizedItems = {},
   selectedItems,
   onSelectItem,
   setSelectedTab,
 }) => {
-  const hasItems = Object.keys(categorizedItems).length > 0;
+  const hasItems = Object.keys(categorizedItems || {}).length > 0;
 
   return (
     <div className="space-y-8">
@@ -23,9 +23,7 @@ const CategorySection: React.FC<CategorySectionPropsTypes> = ({
             <h3 className="text-lg font-heading font-semibold mb-4 text-primary">
               {category}
             </h3>
-            {/* Outer container with ring */}
             <div className="relative p-6 ring-1 ring-inset ring-neutral-mid rounded-xl mb-6 shadow">
-              {/* Scrollable carousel */}
               <div className="flex gap-4 overflow-x-auto scrollbar-hide">
                 {(
                   categorizedItems[category as SelectedItemsCategoriesTypes] ||
@@ -90,7 +88,6 @@ const CategorySection: React.FC<CategorySectionPropsTypes> = ({
               View Outfit
             </Button>
             <Button
-              type="accent"
               href="/clothing"
               variant="outlined"
               size="md"

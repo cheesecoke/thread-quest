@@ -12,6 +12,10 @@ export default function SavedItemMenu({
   handleDeleteOutfit,
   outfit,
 }: SavedItemMenuPropsTypes) {
+  const flattenItems = Array.isArray(outfit.items)
+    ? outfit.items[0]
+    : outfit.items;
+
   return (
     <>
       {editOutfit === outfit.id ? (
@@ -35,7 +39,7 @@ export default function SavedItemMenu({
       ) : (
         <>
           <Button
-            onClick={() => handleViewOutfit(outfit.items, outfit.id)}
+            onClick={() => handleViewOutfit(flattenItems, outfit.id)}
             variant="outlined"
             size="sm"
           >

@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import NextAuthSessionProvider from "../app/providers/SessionProvider";
+import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import { content } from "@/config/content";
 import { Lora, Poppins, Roboto } from "next/font/google";
 import "./styles/globals.css";
@@ -25,19 +28,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body
         className={`${poppins.className} ${roboto.className} ${lora.className}`}
       >
-        <NavBar />
-        <main>{children}</main>
-        <Footer />
+        <NextAuthSessionProvider session={session}>
+          <SavedItemsProvider>
+            <NavBar />
+            <main>{children}</main>
+            <Footer />
+          </SavedItemsProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

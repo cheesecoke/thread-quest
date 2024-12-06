@@ -7,7 +7,9 @@ type CategorizedItems = {
   [key: string]: Array<Item>;
 };
 
-export function categorizeSavedItems(savedItems: Item[]): CategorizedItems {
+export function categorizeSavedItems(
+  savedItems: Item[] = []
+): CategorizedItems {
   return savedItems.reduce((acc, savedItem) => {
     // Check if the item is a hat based on its tags
     if (

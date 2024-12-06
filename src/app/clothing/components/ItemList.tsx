@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { useSavedItems } from "@/context/SavedItemsContext";
 import type { ItemListPropsTypes } from "@/types/clothing/types";
 import NoItems from "./NoItems";
-import Spinner from "@/app/components/Spinner";
 
 const ItemList: React.FC<ItemListPropsTypes> = ({
   items,
   clearFilters,
   loading,
 }) => {
-  const { savedItems, toggleSaveItem } = useSavedItems();
+  const { savedItems, toggleSaveItem, isAuthenticated } = useSavedItems();
 
   if (!loading && items.length === 0) {
     return <NoItems clearFilters={clearFilters} />;
@@ -21,7 +21,8 @@ const ItemList: React.FC<ItemListPropsTypes> = ({
   return (
     <div className="flex flex-wrap">
       {items.map((item) => {
-        const isSaved = savedItems.some((saved) => saved._id === item._id);
+        const isSaved =
+          savedItems?.some((saved) => saved._id === item._id) ?? false;
 
         return (
           <div key={item._id} className="w-1/2 md:w-1/3 xl:w-1/4 p-4">
@@ -46,17 +47,27 @@ const ItemList: React.FC<ItemListPropsTypes> = ({
                   <p className="tex-sm sm:text-lg font-body text-primary">
                     ${item.price}
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => toggleSaveItem(item)}
-                    className="text-secondary hover:text-secondary-dark"
-                  >
-                    {isSaved ? (
-                      <SolidHeartIcon className="h-6 w-6" />
-                    ) : (
+                  {isAuthenticated ? (
+                    <button
+                      type="button"
+                      onClick={() => toggleSaveItem(item)}
+                      className="text-secondary hover:text-secondary-dark"
+                    >
+                      {isSaved ? (
+                        <SolidHeartIcon className="h-6 w-6" />
+                      ) : (
+                        <OutlineHeartIcon className="h-6 w-6" />
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => signIn("google")}
+                      className="text-secondary hover:text-secondary-dark"
+                    >
                       <OutlineHeartIcon className="h-6 w-6" />
-                    )}
-                  </button>
+                    </button>
+                  )}
                 </div>
                 <p className="text-sm font-body text-text-white font-semibold">
                   {item.category}

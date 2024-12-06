@@ -16,15 +16,14 @@ async function fetchInitialItems() {
     throw new Error("Failed to fetch items");
   }
   const data = await res.json();
-  return data.items; // Assuming items are in the data response
+  return data.items;
 }
 
 export default async function ClothingPage() {
-  const initialItems = await fetchInitialItems(); // Fetch initial items on the server
+  const initialItems = await fetchInitialItems();
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-      {/* Pass the initial items to the client component */}
       <ClothingClient initialItems={initialItems} />
     </div>
   );
