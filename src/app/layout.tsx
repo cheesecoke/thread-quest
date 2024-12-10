@@ -50,6 +50,7 @@ export default async function RootLayout({
         </NextAuthSessionProvider>
         <Script
           strategy="lazyOnload"
+          type="text/javascript"
           src="http://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=551b0e6a70cfaba40d85e8fd7400b17d73807539"
         />
       </body>
