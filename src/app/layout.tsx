@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Head from "next/head";
 import { getServerSession } from "next-auth";
+import Script from "next/script";
 import NextAuthSessionProvider from "../app/providers/SessionProvider";
 import { SavedItemsProvider } from "@/context/SavedItemsContext";
 import { content } from "@/config/content";
@@ -38,12 +38,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <Head>
-        <script
-          type="text/javascript"
-          src="http://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=551b0e6a70cfaba40d85e8fd7400b17d73807539"
-        ></script>
-      </Head>
       <body
         className={`${poppins.className} ${roboto.className} ${lora.className}`}
       >
@@ -54,6 +48,10 @@ export default async function RootLayout({
             <Footer />
           </SavedItemsProvider>
         </NextAuthSessionProvider>
+        <Script
+          strategy="lazyOnload"
+          src="http://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=551b0e6a70cfaba40d85e8fd7400b17d73807539"
+        />
       </body>
     </html>
   );
