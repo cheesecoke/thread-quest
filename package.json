@@ -35,5 +35,8 @@
   },
   "sideEffects": [
     "./src/app/global.css"
-  ]
+  ],
+  "engines": {
+    "node": "22.x"
+  }
 }
