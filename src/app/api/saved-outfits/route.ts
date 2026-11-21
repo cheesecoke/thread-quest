@@ -2,17 +2,15 @@ import User from "@/models/User";
 import { NextResponse, NextRequest } from "next/server";
 import { connectToDatabase } from "@/app/utils/connectToDatabase";
 import { OutfitItemTypes } from "@/types/inventory/types";
+import { getSessionEmail } from "@/app/utils/getSessionEmail";
 
-export async function GET(req: NextRequest) {
-  await connectToDatabase();
-
-  // Extract query parameters from the request URL
-  const url = new URL(req.url);
-  const email = url.searchParams.get("email");
-
+export async function GET() {
+  const email = await getSessionEmail();
   if (!email) {
-    return new NextResponse("Email is required", { status: 400 });
+    return new NextResponse("Unauthorized", { status: 401 });
   }
+
+  await connectToDatabase();
 
   const user = await User.findOne({ email });
 
@@ -24,11 +22,16 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const email = await getSessionEmail();
+  if (!email) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   await connectToDatabase();
 
-  const { email, outfit } = await req.json();
+  const { outfit } = await req.json();
 
-  if (!email || !outfit) {
+  if (!outfit) {
     return new NextResponse("Invalid request payload", { status: 400 });
   }
 
@@ -56,11 +59,16 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const email = await getSessionEmail();
+  if (!email) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   await connectToDatabase();
 
-  const { email, outfitId } = await req.json();
+  const { outfitId } = await req.json();
 
-  if (!email || !outfitId) {
+  if (!outfitId) {
     return new NextResponse("Invalid request payload", { status: 400 });
   }
 
@@ -80,6 +88,11 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const email = await getSessionEmail();
+  if (!email) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   await connectToDatabase();
 
   const { id, status } = await req.json();
@@ -88,7 +101,8 @@ export async function PATCH(req: NextRequest) {
     return new NextResponse("Invalid request payload", { status: 400 });
   }
 
-  const user = await User.findOne({ "savedOutfits.id": id });
+  // Only match an outfit that belongs to the signed-in user
+  const user = await User.findOne({ email, "savedOutfits.id": id });
 
   if (!user) {
     return new NextResponse("Outfit not found", { status: 404 });
@@ -104,11 +118,16 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const email = await getSessionEmail();
+  if (!email) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   await connectToDatabase();
 
-  const { email, outfitId, newName } = await req.json();
+  const { outfitId, newName } = await req.json();
 
-  if (!email || !outfitId || !newName) {
+  if (!outfitId || !newName) {
     return new NextResponse("Invalid request payload", { status: 400 });
   }
 

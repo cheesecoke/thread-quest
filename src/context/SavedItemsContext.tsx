@@ -74,7 +74,7 @@ export const SavedItemsProvider: React.FC<{ children: React.ReactNode }> = ({
       const res = await fetch("/api/saved-items/toggle", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: session.user.email, item, action }),
+        body: JSON.stringify({ item, action }),
       });
 
       if (!res.ok) {

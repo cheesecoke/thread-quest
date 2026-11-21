@@ -46,7 +46,6 @@ export default function SavedOutfitsList({
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: userEmail,
           outfitId: id,
           newName: editedName,
         }),
@@ -77,7 +76,6 @@ export default function SavedOutfitsList({
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: userEmail,
           outfitId: id,
         }),
       });

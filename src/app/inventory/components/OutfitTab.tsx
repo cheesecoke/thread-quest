@@ -24,9 +24,7 @@ const OutfitTab = ({
       try {
         if (!session?.user?.email) return;
 
-        const res = await fetch(
-          `/api/saved-outfits?email=${session.user.email}`
-        );
+        const res = await fetch("/api/saved-outfits");
         if (res.ok) {
           const { savedOutfits } = await res.json();
           setSavedOutfits(savedOutfits);
@@ -69,7 +67,6 @@ const OutfitTab = ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: session?.user?.email,
           outfit: newOutfit,
         }),
       });
