@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
 import User from "@/models/User";
 import { connectToDatabase } from "@/app/utils/connectToDatabase";
+import { getSessionEmail } from "@/app/utils/getSessionEmail";
 
 export async function POST(req: Request) {
+  const email = await getSessionEmail();
+  if (!email) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
   await connectToDatabase();
 
   const body = await req.json();
-  const { email, item, action } = body;
+  const { item, action } = body;
 
-  if (!email || !item || !action) {
+  if (!item || !action) {
     return NextResponse.json(
       { message: "Invalid request payload" },
       { status: 400 }
